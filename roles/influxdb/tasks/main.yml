@@ -1,0 +1,20 @@
+---
+# Installs Netdata via dockercontainer on a linux host
+
+- name: configure the influxdb settings
+  template: 
+    src=influxdb.service.j2
+    dest=/usr/lib/systemd/system/influxdb.service
+  register: influxdb_systemd
+  notify: restart influxdb service
+  tags: influxdb
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: influxdb_systemd.changed
+  tags: influxdb
+
+- name: allow influxdb through firewall
+  shell: firewall-cmd --add-port=8086/tcp --permanent
+  notify: firewall reload
+  tags: influxdb

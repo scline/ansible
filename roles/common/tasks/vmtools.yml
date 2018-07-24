@@ -1,0 +1,19 @@
+---
+# Install vmware tools if host is controlled by VMWare
+
+# EPEL is required for open-vm-tools
+- name: installing epel-release
+  package:
+    name: epel-release
+    state: present
+
+- name: installing open-vm-tools 
+  package:
+    name: open-vm-tools
+    state: present
+
+- name: start the vmtoolsd service and forcing to start on reboot
+  service: 
+    name=vmtoolsd 
+    state=started 
+    enabled=yes

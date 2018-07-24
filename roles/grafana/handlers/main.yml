@@ -1,0 +1,6 @@
+---
+- name: restart grafana service
+  service: name=grafana state=restarted enabled=yes
+
+- name: firewall reload
+  shell: firewall-cmd --reload

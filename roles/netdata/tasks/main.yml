@@ -1,0 +1,20 @@
+---
+# Installs Netdata via dockercontainer on a linux host
+
+- name: configure the systemd settings
+  template: 
+    src=netdata.service.j2
+    dest=/usr/lib/systemd/system/netdata.service
+  register: netdata_systemd
+  notify: restart netdata service
+  tags: netdata
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: netdata_systemd.changed
+  tags: netdata
+
+- name: allow netdata through firewall
+  shell: firewall-cmd --add-port=19999/tcp --permanent
+  notify: firewall reload
+  tags: netdata

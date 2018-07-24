@@ -1,0 +1,20 @@
+---
+# Variables listed here are applicable to all host groups
+
+### Common Role ###
+
+# Server Timezone
+server_timezone: America/Los_Angeles
+
+# Read-Only SNMPv2 Community
+snmp_ro_community: public
+
+# NTP server list
+ntpserver: ["0.us.pool.ntp.org","1.us.pool.ntp.org","2.us.pool.ntp.org","3.us.pool.ntp.org"]
+
+#### Docker Role ###
+# Docker version to install on hosts
+docker_version: "1.12.6"
+
+# ref: https://github.com/docker-library/elasticsearch/issues/111
+max_map_count: 262144

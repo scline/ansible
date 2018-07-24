@@ -1,0 +1,17 @@
+---
+# selinux settings, generally disabled.
+
+- name: installing/updating libselinux python module via "yum install"
+  yum: name={{ item }} state=present 
+  with_items:
+   - libselinux-python 
+
+- name: disabling selinux (live w/o rebooting required)
+  command: /usr/sbin/setenforce 0 
+  ignore_errors: yes
+  changed_when: false
+  
+- name: disable selinux in configuration file for persistance (policy=targeted state=disabled)
+  selinux: 
+    state=disabled
+  ignore_errors: yes
