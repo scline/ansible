@@ -1,0 +1,33 @@
+---
+# Installs Minecraft via dockercontainer on a linux host
+
+- name: configure the minecraft service settings
+  template: 
+    src=minecraft.service.j2
+    dest=/usr/lib/systemd/system/minecraft.service
+  register: minecraft_systemd
+  notify: restart minecraft service
+  tags: minecraft
+
+- name: configure the minecraft route53 service settings
+  template: 
+    src=minecraft-route53.service.j2
+    dest=/usr/lib/systemd/system/minecraft-route53.service
+  register: minecraft_route53_systemd
+  notify: restart minecraft-route53 service
+  tags: minecraft
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: minecraft_systemd.changed or minecraft_route53_systemd
+  tags: minecraft
+
+- name: allow mymcadmin through firewall
+  shell: firewall-cmd --add-port=8080/tcp --permanent
+  notify: firewall reload
+  tags: minecraft
+
+- name: allow minecraft through firewall
+  shell: firewall-cmd --add-port=25565/tcp --permanent
+  notify: firewall reload
+  tags: minecraft
