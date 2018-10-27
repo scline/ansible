@@ -1,0 +1,33 @@
+# This file is cotrolled by an ansible playbook, please do not edit!
+# https://github.com/scline/ansible-home
+
+[Unit]
+Description=telegraf
+After=network.target docker.service
+Requires=docker.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStartPre=/usr/bin/docker pull telegraf:latest
+# the - essentially ignores failure, it isn't made clear in the systemd manpage that
+# this is the expected behavior, but it is. If this `-` prefixed command fails
+# no other `ExecStartPre` commands will be executed, so we run the rm last.
+ExecStartPre=-/usr/bin/docker rm -f telegraf
+ExecStart=/usr/bin/docker run \
+                          --name telegraf \
+                          -e HOST_PROC=/host/proc \
+                          -v /proc:/host/proc:ro \
+                          -v /var/run/docker.sock:/var/run/docker.sock \
+                          -v /var/docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+                          -e TZ='{{ server_timezone }}' \
+                          telegraf:latest
+
+ExecStop=/usr/bin/docker stop telegraf
+# The rm of the container should be covered by the `--rm` flag
+# in the run statement. However we want to make sure it's extra
+# dead.
+ExecStopPost=/usr/bin/docker rm -f telegraf
+Restart=always
+RestartSec=10
