@@ -13,8 +13,8 @@
   file: path=/var/docker/telegraf/ state=directory    
 
 - name: configure the telegraf configuration file
-  copy: 
-    src=telegraf.conf
+  template: 
+    src=telegraf.conf.j2
     dest=/var/docker/telegraf/telegraf.conf
   register: telegraf_config
   notify: restart telegraf service

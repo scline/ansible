@@ -21,7 +21,7 @@ ExecStart=/usr/bin/docker run \
                           -v /proc:/host/proc:ro \
                           -v /var/run/docker.sock:/var/run/docker.sock \
                           -v /var/docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
-                          -e TZ='{{ server_timezone }}' \
+                          -e TZ={{ server_timezone }} \
                           telegraf:latest
 
 ExecStop=/usr/bin/docker stop telegraf

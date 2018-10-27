@@ -73,7 +73,7 @@
   logfile = ""
 
   ## Override default hostname, if empty use os.Hostname()
-  hostname = ""
+  hostname = "{{ inventory_hostname }}"
   ## If set to true, do no set the "host" tag in the telegraf agent.
   omit_hostname = false
 
@@ -91,10 +91,12 @@
   # urls = ["unix:///var/run/influxdb.sock"]
   # urls = ["udp://127.0.0.1:8089"]
   # urls = ["http://127.0.0.1:8086"]
-  urls = ["http://172.28.3.99:8086"]
+  #urls = ["http://172.28.3.99:8086"]
+  urls = ["http://{{ INFLUXDB_HOST }}:{{ INFLUXDB_PORT }}"]
 
   ## The target database for metrics; will be created as needed.
-  database = "telegraf"
+  #database = "telegraf"
+  database ="{{ INFLUXDB_TELEGRAF_DB }}"
 
   ## If true, no CREATE DATABASE queries will be sent.  Set to true when using
   ## Telegraf with a user without permissions to create databases or when the
@@ -387,10 +389,10 @@
 #   # %d - day of month (e.g., 01)
 #   # %H - hour (00..23)
 #   # %V - week of the year (ISO week) (01..53)
-#   ## Additionally, you can specify a tag name using the notation {{tag_name}}
+#   ## Additionally, you can specify a tag name using the notation {# {{tag_name}} #}
 #   ## which will be used as part of the index name. If the tag does not exist,
 #   ## the default tag value will be used.
-#   # index_name = "telegraf-{{host}}-%Y.%m.%d"
+#   {# index_name = "telegraf-{{host}}-%Y.%m.%d" #}
 #   # default_tag_value = "none"
 #   index_name = "telegraf-%Y.%m.%d" # required.
 #
