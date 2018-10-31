@@ -2,7 +2,7 @@
 # This playbook deploys docker host utalizing centos as a backend.
 
 - name: apply common configuration to all nodes
-  hosts: influxdb
+  hosts: plex
   remote_user: root
   roles:
-    - telegraf
+    - plex

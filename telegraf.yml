@@ -2,7 +2,7 @@
 # This playbook deploys docker host utalizing centos as a backend.
 
 - name: apply common configuration to all nodes
-  hosts: minecraft
+  hosts: telegraf
   remote_user: root
   roles:
-    - minecraft
+    - telegraf

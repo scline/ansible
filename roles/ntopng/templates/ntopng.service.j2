@@ -2,7 +2,7 @@
 # https://github.com/scline/ansible-home
 
 [Unit]
-Description=Minecraft
+Description=ntopng
 After=network.target docker.service
 Requires=docker.service
 
@@ -10,23 +10,22 @@ Requires=docker.service
 WantedBy=multi-user.target
 
 [Service]
-ExecStartPre=/usr/bin/docker pull linuxserver/mcmyadmin2:latest
+ExecStartPre=/usr/bin/docker pull frostasm/ntopng-docker:latest
 # the - essentially ignores failure, it isn't made clear in the systemd manpage that
 # this is the expected behavior, but it is. If this `-` prefixed command fails
 # no other `ExecStartPre` commands will be executed, so we run the rm last.
-ExecStartPre=-/usr/bin/docker rm -f minecraft
+ExecStartPre=-/usr/bin/docker rm -f ntopng
 ExecStart=/usr/bin/docker run \
-                          --name minecraft \
-                          --init \
-                          --pid=host \
-                          --net=host \
+                          --name ntopng \
+                          -p 4000:3000 \
+                          -p 2055:2055 \
                           -e TZ={{ server_timezone }} \
-                          linuxserver/mcmyadmin2:latest 
+                          frostasm/ntopng-docker:latest
 
-ExecStop=/usr/bin/docker stop unifi
+ExecStop=/usr/bin/docker stop ntopng
 # The rm of the container should be covered by the `--rm` flag
 # in the run statement. However we want to make sure it's extra
 # dead.
-ExecStopPost=/usr/bin/docker rm -f minecraft
+ExecStopPost=/usr/bin/docker rm -f ntopng
 Restart=always
 RestartSec=10

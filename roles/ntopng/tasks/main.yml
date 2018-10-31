@@ -1,0 +1,20 @@
+---
+# Installs ntopng via dockercontainer on a linux host
+
+- name: configure the ntopng service settings
+  template: 
+    src=ntopng.service.j2
+    dest=/usr/lib/systemd/system/ntopng.service
+  register: ntopng_systemd
+  notify: restart ntopng service
+  tags: ntopng
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: ntopng_systemd.changed
+  tags: ntopng
+
+- name: allow ntopng through firewall
+  shell: firewall-cmd --add-port=4000/tcp --add-port=2055/udp --permanent
+  notify: firewall reload
+  tags: ntopng

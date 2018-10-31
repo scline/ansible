@@ -1,0 +1,20 @@
+---
+# Installs Plex via dockercontainer on a linux host
+
+- name: configure the plex route53 service settings
+  template: 
+    src=plex-route53.service.j2
+    dest=/usr/lib/systemd/system/plex-route53.service
+  register: plex_route53_systemd
+  notify: restart plex-route53 service
+  tags: plex
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: plex_route53_systemd
+  tags: plex
+
+- name: allow plex through firewall
+  shell: firewall-cmd --add-port=32400/tcp --permanent
+  notify: firewall reload
+  tags: plex
