@@ -1,0 +1,6 @@
+---
+- name: restart exabgp-pihole service
+  service: name=exabgp-pihole state=restarted enabled=yes
+
+- name: firewall reload
+  shell: firewall-cmd --reload

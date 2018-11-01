@@ -1,0 +1,14 @@
+neighbor 172.28.3.1 {
+	router-id {{ inventory_hostname }};
+	local-as {{ local_as }};
+	peer-as 65001;
+
+	api services {
+		processes [ watch-loghost ];
+	}
+}
+
+process watch-loghost {
+	encoder text;
+	run python -m exabgp healthcheck --cmd "nc -z -w2 -u localhost 514" --no-syslog --label loghost --withdraw-on-down --ip 8.8.8.8/32;
+}
