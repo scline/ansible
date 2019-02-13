@@ -1,6 +1,0 @@
----
-- name: restart ntopng service
-  service: name=ntopng state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload

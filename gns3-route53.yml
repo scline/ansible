@@ -1,0 +1,8 @@
+---
+# This playbook deploys docker host utalizing centos as a backend.
+
+- name: apply common configuration to all nodes
+  hosts: gns3-route53
+  remote_user: root
+  roles:
+    - gns3-route53

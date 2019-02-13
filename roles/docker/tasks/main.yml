@@ -32,9 +32,10 @@
 
 - name: Install Docker
   package:
-    name: docker-ce
-    state: latest
+    name: "{{ DOCKER_VERSION }}"
+    state: present
   become: yes
+
 
 - name: Start Docker service
   service:

@@ -19,4 +19,4 @@
 
 # use play if vmware is present
 - include: vmtools.yml
-  when: vmware_check > 1
+  #when: vmware_check > 1

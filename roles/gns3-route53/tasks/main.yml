@@ -1,0 +1,15 @@
+---
+# Installs Minecraft via dockercontainer on a linux host
+
+- name: configure the gns3 route53 service settings
+  template: 
+    src=gns3-route53.service.j2
+    dest=/usr/lib/systemd/system/gns3-route53.service
+  register: gns3_route53_systemd
+  notify: restart gns3-route53 service
+  tags: gns3
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: gns3_route53_systemd
+  tags: gns3

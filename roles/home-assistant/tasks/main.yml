@@ -1,0 +1,20 @@
+---
+# Installs Netdata via dockercontainer on a linux host
+
+- name: configure the home assistant settings
+  template: 
+    src=home-assistant.service.j2
+    dest=/usr/lib/systemd/system/home-assistant.service
+  register: ha_systemd
+  notify: restart home-assistant service
+  tags: ha
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: ha_systemd.changed
+  tags: ha
+
+- name: allow home assistant through firewall
+  shell: firewall-cmd --add-port=8123/tcp --permanent
+  notify: firewall reload
+  tags: ha
