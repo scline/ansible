@@ -1,13 +1,23 @@
 ---
 # Installs Netdata via dockercontainer on a linux host
 
-- name: configure the systemd settings
+- name: create /etc/docker/compose/netdata directory
+  file:
+    path: /etc/docker/compose/netdata
+    state: directory
+
+- name: copy docker-compose template
   template: 
-    src=netdata.service.j2
-    dest=/usr/lib/systemd/system/netdata.service
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/netdata/docker-compose.yml
+  notify: restart netdata service
+
+- name: copy systemd service file
+  copy: 
+    src: netdata.service
+    dest: /usr/lib/systemd/system/netdata.service
   register: netdata_systemd
   notify: restart netdata service
-  tags: netdata
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
