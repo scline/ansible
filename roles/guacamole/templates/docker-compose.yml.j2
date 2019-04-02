@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  db:
+    hostname: db
+    build:
+      context: .
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: {{ MYSQL_DATABASE }}
+      MYSQL_USER: {{ MYSQL_USER }}
+      MYSQL_PASSWORD: {{ MYSQL_PASSWORD }}
+
+  guacd:
+    hostname: guacd
+    image: guacamole/guacd
+    restart: always
+
+  guacamole:
+    hostname: guacamole
+    image: guacamole/guacamole
+    restart: always
+    links:
+      - guacd
+      - db
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_HOSTNAME: db
+      MYSQL_DATABASE: {{ MYSQL_DATABASE }}
+      MYSQL_USER: {{ MYSQL_USER }}
+      MYSQL_PASSWORD: {{ MYSQL_PASSWORD }}
+
+  ngnx:
+    hostname: nginx
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - /etc/docker/compose/guacamole/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - guacamole
+
+volumes:
+  data:

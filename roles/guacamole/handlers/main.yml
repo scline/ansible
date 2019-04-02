@@ -1,0 +1,6 @@
+---
+- name: restart guacamole service
+  service: name=guacamole state=restarted enabled=yes
+
+- name: firewall reload
+  shell: firewall-cmd --reload

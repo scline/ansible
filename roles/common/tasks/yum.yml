@@ -2,10 +2,9 @@
 # Set yum to auto update security packages
 
 - name: installing/updating yum-cron services via "yum install"
-  yum: name={{ item }} state=present
-  with_items:
-   - cronie
-   - yum-cron
+  yum: 
+    name: ['cronie', 'yum-cron', 'git'] 
+    state: present
 
 # should queue up and auto-install security packages
 - name: copy yum-cron.conf

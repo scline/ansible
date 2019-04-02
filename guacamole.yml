@@ -1,0 +1,11 @@
+---
+# This playbook deploys docker host utalizing centos as a backend.
+
+- name: apply common configuration to all nodes
+  hosts: guacamole
+  remote_user: root
+  roles:
+    - common
+    - docker
+    - netdata
+    - guacamole

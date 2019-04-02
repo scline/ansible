@@ -1,0 +1,38 @@
+# Role to install and configure Apache Guacamole
+---
+
+- name: Copy required files for Guacamole
+  file:
+    path: /etc/docker/compose/guacamole
+    state: directory
+
+- template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/guacamole/docker-compose.yml
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- template: 
+    src: nginx.conf.j2
+    dest: /etc/docker/compose/guacamole/nginx.conf
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- template: 
+    src: guacamole.service.j2
+    dest: /usr/lib/systemd/system/guacamole.service
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- name: allow guacamole through firewall
+  shell: firewall-cmd --add-port=8080/tcp --add-port=80/tcp --permanent
+  notify: firewall reload
+
+- copy:
+    src: Dockerfile
+    dest: /etc/docker/compose/guacamole/Dockerfile
+
+- name: generate init.db from shell command
+  shell:
+    cmd: docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > tmp.sql; echo "USE {{ MYSQL_DATABASE }}" | cat - tmp.sql > initdb.sql; rm -f tmp.sql;
+    chdir: /etc/docker/compose/guacamole
