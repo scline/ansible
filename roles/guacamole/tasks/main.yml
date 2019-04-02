@@ -1,34 +1,13 @@
 # Role to install and configure Apache Guacamole
 ---
 
-- name: Copy required files for Guacamole
+- name: create /etc/docker/compose/guacamole directory
   file:
     path: /etc/docker/compose/guacamole
     state: directory
 
-- template: 
-    src: docker-compose.yml.j2
-    dest: /etc/docker/compose/guacamole/docker-compose.yml
-  register: guacamole_systemd
-  notify: restart guacamole service
-
-- template: 
-    src: nginx.conf.j2
-    dest: /etc/docker/compose/guacamole/nginx.conf
-  register: guacamole_systemd
-  notify: restart guacamole service
-
-- template: 
-    src: guacamole.service.j2
-    dest: /usr/lib/systemd/system/guacamole.service
-  register: guacamole_systemd
-  notify: restart guacamole service
-
-- name: allow guacamole through firewall
-  shell: firewall-cmd --add-port=8080/tcp --add-port=80/tcp --permanent
-  notify: firewall reload
-
-- copy:
+- name: copy dockerfile that compiles mysql 
+  copy:
     src: Dockerfile
     dest: /etc/docker/compose/guacamole/Dockerfile
 
@@ -36,3 +15,30 @@
   shell:
     cmd: docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > tmp.sql; echo "USE {{ MYSQL_DATABASE }}" | cat - tmp.sql > initdb.sql; rm -f tmp.sql;
     chdir: /etc/docker/compose/guacamole
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/guacamole/docker-compose.yml
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- name: copy nginx configuration
+  copy: 
+    src: nginx.conf
+    dest: /etc/docker/compose/guacamole/nginx.conf
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- name: copy systemd service file
+  copy: 
+    src: guacamole.service
+    dest: /usr/lib/systemd/system/guacamole.service
+  register: guacamole_systemd
+  notify: restart guacamole service
+
+- name: open port 80 on firewalld
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
