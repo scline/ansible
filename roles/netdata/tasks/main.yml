@@ -14,7 +14,9 @@
   when: netdata_systemd.changed
   tags: netdata
 
-- name: allow netdata through firewall
-  shell: firewall-cmd --add-port=19999/tcp --permanent
-  notify: firewall reload
+- name: open port 19999 on firewalld
+  firewalld:
+    port: 19999/tcp
+    permanent: yes
+    state: enabled
   tags: netdata

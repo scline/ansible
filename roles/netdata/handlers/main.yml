@@ -1,6 +1,3 @@
 ---
 - name: restart netdata service
   service: name=netdata state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload

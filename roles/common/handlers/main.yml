@@ -10,6 +10,3 @@
 
 - name: restart yum-cron service
   service: name=yum-cron state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload

@@ -20,14 +20,12 @@
   template: 
     src: docker-compose.yml.j2
     dest: /etc/docker/compose/guacamole/docker-compose.yml
-  register: guacamole_systemd
   notify: restart guacamole service
 
 - name: copy nginx configuration
   copy: 
     src: nginx.conf
     dest: /etc/docker/compose/guacamole/nginx.conf
-  register: guacamole_systemd
   notify: restart guacamole service
 
 - name: copy systemd service file
@@ -37,8 +35,13 @@
   register: guacamole_systemd
   notify: restart guacamole service
 
-- name: open port 80 on firewalld
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: guacamole_systemd.changed
+  tags: netdata
+
+- name: open http on firewalld
   firewalld:
-    port: 80/tcp
+    service: http
     permanent: yes
     state: enabled

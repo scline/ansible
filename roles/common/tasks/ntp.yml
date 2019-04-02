@@ -25,11 +25,6 @@
     dest=/etc/ntp.conf
   tags: ntp
 
-- name: allow ntp through firewall
-  shell: firewall-cmd --add-service=ntp --permanent
-  notify: firewall reload
-  tags: ntp
-
 - name: stopping NTP in order to force an update
   service: 
     name=ntpd 
@@ -43,7 +38,7 @@
 
 - name: starting NTP service and forcing to start on reboot
   service: 
-    name=ntpd 
+    name=ntpd
     state=started 
     enabled=yes
   tags: ntp
