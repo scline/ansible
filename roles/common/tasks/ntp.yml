@@ -24,17 +24,7 @@
     src=ntp.conf.j2 
     dest=/etc/ntp.conf
   tags: ntp
-
-- name: stopping NTP in order to force an update
-  service: 
-    name=ntpd 
-    state=stopped
-  tags: ntp
-
-- name: performing NTP sync with primary ntp server
-  shell: ntpdate {{ ntpserver[0] }}
-  ignore_errors: yes
-  tags: ntp
+  notify: restart ntp service
 
 - name: starting NTP service and forcing to start on reboot
   service: 

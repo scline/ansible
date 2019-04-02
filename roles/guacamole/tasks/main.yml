@@ -11,10 +11,16 @@
     src: Dockerfile
     dest: /etc/docker/compose/guacamole/Dockerfile
 
+- name: check if init.db file exists
+  stat: 
+    path: /etc/docker/compose/guacamole/initdb.sql
+  register: initdb_sql
+
 - name: generate init.db from shell command
   shell:
     cmd: docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > tmp.sql; echo "USE {{ MYSQL_DATABASE }}" | cat - tmp.sql > initdb.sql; rm -f tmp.sql;
     chdir: /etc/docker/compose/guacamole
+  when: initdb_sql.stat.exists == False
 
 - name: copy docker-compose template
   template: 

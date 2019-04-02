@@ -12,11 +12,5 @@
 
 - include: yum.yml
 
-# will be > 0 if its on a VMware hypervisor
-- name: verify if host is on vmware
-  shell: dmidecode | grep -i vmware | wc -l
-  register: vmware_check 
-
-# use play if vmware is present
 - include: vmtools.yml
-  #when: vmware_check > 1
+  when: ansible_virtualization_type == 'VMware'

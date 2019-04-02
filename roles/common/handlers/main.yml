@@ -10,3 +10,6 @@
 
 - name: restart yum-cron service
   service: name=yum-cron state=restarted enabled=yes
+
+- name: restart ntp service
+  service: name=ntp state=restarted enabled=yes
