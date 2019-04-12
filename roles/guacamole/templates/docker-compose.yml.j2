@@ -38,7 +38,7 @@ services:
     image: nginx
     restart: always
     ports:
-      - 80:80
+      - {{ LISTENING_PORT }}:80
     volumes:
       - /etc/docker/compose/guacamole/nginx.conf:/etc/nginx/conf.d/default.conf
     links:
@@ -51,7 +51,7 @@ services:
       AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
       AWS_CONNECTION_REGION: us-east-1
-      ROUTE53_DOMAIN_A_RECORD: {{ ansible_fqdn }}
+      ROUTE53_DOMAIN_A_RECORD: {{ PUBLIC_FQDN }}
       ROUTE53_UPDATE_FREQUENCY: 10800
 
 volumes:

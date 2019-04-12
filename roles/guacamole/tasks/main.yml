@@ -46,8 +46,8 @@
   when: guacamole_systemd.changed
   tags: netdata
 
-- name: open http on firewalld
+- name: open port on firewalld
   firewalld:
-    service: http
+    port: {{ LISTENING_PORT }}
     permanent: yes
     state: enabled

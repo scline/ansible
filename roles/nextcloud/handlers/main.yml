@@ -1,0 +1,3 @@
+---
+- name: restart nextcloud service
+  service: name=nextcloud state=restarted enabled=yes
