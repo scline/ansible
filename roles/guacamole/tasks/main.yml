@@ -18,7 +18,7 @@
 
 - name: generate init.db from shell command
   shell:
-    cmd: docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > tmp.sql; echo "USE {{ MYSQL_DATABASE }}" | cat - tmp.sql > initdb.sql; rm -f tmp.sql;
+    cmd: docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > tmp.sql; echo "USE {{ GUACAMOLE_MYSQL_DATABASE }}" | cat - tmp.sql > initdb.sql; rm -f tmp.sql;
     chdir: /etc/docker/compose/guacamole
   when: initdb_sql.stat.exists == False
 
@@ -46,8 +46,11 @@
   when: guacamole_systemd.changed
   tags: netdata
 
+- debug:
+    msg: "{{ GUACAMOLE_LISTENING_PORT }}"
+
 - name: open port on firewalld
   firewalld:
-    port: {{ LISTENING_PORT }}
+    port: "{{ GUACAMOLE_LISTENING_PORT }}/tcp"
     permanent: yes
     state: enabled

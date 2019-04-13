@@ -34,8 +34,5 @@
 [gns3-route53]
 172.28.3.99
 
-[guacamole]
-172.20.0.90
-
-[nextcloud]
-172.18.0.91
+[las2dockercompute200]
+172.18.0.16

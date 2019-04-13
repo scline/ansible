@@ -13,10 +13,10 @@
 - name: Mount up device by label
   mount:
     path: /mnt/nfs/darkwindcraft
-    src: 172.18.0.15:/mnt/las2vpool01/darkwindcraft
+    src: "{{ NFS_SHARE }}"
     fstype: nfs
     state: mounted
-    
+
 - name: create /etc/docker/compose/nextcloud directory
   file:
     path: /etc/docker/compose/nextcloud
@@ -45,8 +45,8 @@
   systemd: daemon_reload=yes
   when: nextcloud_systemd.changed
 
-- name: open port 80 on firewalld
+- name: open port on firewalld
   firewalld:
-    port: 80/tcp
+    port: "{{ NEXTCLOUD_LISTENING_PORT }}/tcp"
     permanent: yes
     state: enabled
