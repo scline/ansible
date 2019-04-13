@@ -1,6 +1,3 @@
 ---
-- name: restart plex-route53 service
-  service: name=plex-route53 state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload
+- name: restart plex service
+  service: name=plex state=restarted enabled=yes

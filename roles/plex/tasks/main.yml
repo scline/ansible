@@ -1,20 +1,52 @@
 ---
-# Installs Plex via dockercontainer on a linux host
+# Installs plex via dockercontainer on a linux host
+- name: install nfs client software
+  yum:
+    name: nfs-utils
+    state: present
 
-- name: configure the plex route53 service settings
+- name: create /mnt/nfs/plex directory
+  file:
+    path: /mnt/nfs/plex
+    state: directory
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/plex
+    src: "{{ NFS_SHARE }}"
+    fstype: nfs
+    state: mounted
+
+- name: create /etc/docker/compose/plex directory
+  file:
+    path: /etc/docker/compose/plex
+    state: directory
+
+- name: copy docker-compose template
   template: 
-    src=plex-route53.service.j2
-    dest=/usr/lib/systemd/system/plex-route53.service
-  register: plex_route53_systemd
-  notify: restart plex-route53 service
-  tags: plex
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/plex/docker-compose.yml
+  notify: restart plex service
+
+- name: copy systemd service file
+  copy: 
+    src: plex.service
+    dest: /usr/lib/systemd/system/plex.service
+  register: plex_systemd
+  notify: restart plex service
+
+- name: copy nginx configuration
+  copy: 
+    src: nginx.conf
+    dest: /etc/docker/compose/plex/nginx.conf
+  notify: restart plex service
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
-  when: plex_route53_systemd
-  tags: plex
+  when: plex_systemd.changed
 
-- name: allow plex through firewall
-  shell: firewall-cmd --add-port=32400/tcp --permanent
-  notify: firewall reload
-  tags: plex
+- name: open port on firewalld
+  firewalld:
+    port: 32400/tcp
+    permanent: yes
+    state: enabled
