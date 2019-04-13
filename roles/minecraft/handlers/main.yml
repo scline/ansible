@@ -1,9 +1,0 @@
----
-- name: restart minecraft service
-  service: name=minecraft state=restarted enabled=yes
-
-- name: restart minecraft-route53 service
-  service: name=minecraft-route53 state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload

@@ -2,7 +2,10 @@
 # This playbook deploys docker host utalizing centos as a backend.
 
 - name: apply common configuration to all nodes
-  hosts: plex
+  hosts: las2plex
   remote_user: root
   roles:
+    - common
+    - docker
+    - netdata
     - plex

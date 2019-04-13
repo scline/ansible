@@ -1,3 +1,0 @@
----
-- name: restart gns3-route53 service
-  service: name=gns3-route53 state=restarted enabled=yes
