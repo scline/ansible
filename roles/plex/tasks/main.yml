@@ -35,12 +35,6 @@
   register: plex_systemd
   notify: restart plex service
 
-- name: copy nginx configuration
-  copy: 
-    src: nginx.conf
-    dest: /etc/docker/compose/plex/nginx.conf
-  notify: restart plex service
-
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: plex_systemd.changed

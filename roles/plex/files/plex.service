@@ -1,0 +1,16 @@
+# /etc/systemd/system/plex.service
+[Unit]
+Description=Plex Service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=null
+WorkingDirectory=/etc/docker/compose/plex
+ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/plex/docker-compose.yml up -d --force-recreate
+ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/plex/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
