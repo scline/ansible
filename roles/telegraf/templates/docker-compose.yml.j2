@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  telegraf:
+    image: telegraf
+    restart: always
+    volumes:
+      - /proc:/host/proc:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/docker/compose/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      TZ: {{ server_timezone }}
+      HOST_PROC: /host/proc 

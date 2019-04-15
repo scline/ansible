@@ -1,34 +1,5 @@
 ---
-# Installs Netdata via dockercontainer on a linux host
-
-- name: configure the telegraf service settings
-  template: 
-    src=telegraf.service.j2
-    dest=/usr/lib/systemd/system/telegraf.service
-  register: telegraf_systemd
-  notify: restart telegraf service
-  tags: telegraf
-
-- name: create telegraf directory
-  file: path=/var/docker/telegraf/ state=directory    
-
-- name: configure the telegraf configuration file
-  template: 
-    src=telegraf.conf.j2
-    dest=/var/docker/telegraf/telegraf.conf
-  register: telegraf_config
-  notify: restart telegraf service
-  tags: telegraf
-
-- name: force systemd to reread configs
-  systemd: daemon_reload=yes
-  when: telegraf_systemd.changed
-  tags: telegraf
-
-
-
----
-# Installs Grafana and Influxdb via dockercontainer on a linux host
+# Installs telegraf via dockercontainer on a linux host
 
 - name: create /etc/docker/compose/telegraf directory
   file:
@@ -39,6 +10,12 @@
   template: 
     src: docker-compose.yml.j2
     dest: /etc/docker/compose/telegraf/docker-compose.yml
+  notify: restart telegraf service
+
+- name: copy application configuration template
+  template: 
+    src: telegraf.conf.j2
+    dest: /etc/docker/compose/telegraf/telegraf.conf
   notify: restart telegraf service
 
 - name: copy systemd service file

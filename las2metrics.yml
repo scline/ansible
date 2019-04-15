@@ -7,6 +7,5 @@
   roles:
     - common
     - docker
-    - netdata
     - influxdb
     - grafana

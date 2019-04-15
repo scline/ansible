@@ -1,19 +1,19 @@
 [all]
 
-[docker]
-172.28.3.99
-172.28.3.97
+#[docker]
+#172.28.3.99
+#172.28.3.97
 
-[telegraf]
-172.28.3.99
-172.28.3.97
+#[telegraf]
+#172.28.3.99
+#172.28.3.97
 
-[pihole]
-172.28.3.90 local_as=65901 bgp_vip=8.8.8.8
-172.28.3.91 local_as=65901 bgp_vip=8.8.4.4
+#[pihole]
+#172.28.3.90 local_as=65901 bgp_vip=8.8.8.8
+#172.28.3.91 local_as=65901 bgp_vip=8.8.4.4
 
-[home-assistant]
-172.28.3.99
+#[home-assistant]
+#172.28.3.99
 
 [las2dockercompute200]
 172.18.0.16
