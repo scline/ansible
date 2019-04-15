@@ -24,3 +24,31 @@
   systemd: daemon_reload=yes
   when: telegraf_systemd.changed
   tags: telegraf
+
+
+
+---
+# Installs Grafana and Influxdb via dockercontainer on a linux host
+
+- name: create /etc/docker/compose/telegraf directory
+  file:
+    path: /etc/docker/compose/telegraf
+    state: directory
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/telegraf/docker-compose.yml
+  notify: restart telegraf service
+
+- name: copy systemd service file
+  copy: 
+    src: telegraf.service
+    dest: /usr/lib/systemd/system/telegraf.service
+  register: telegraf_systemd
+  notify: restart telegraf service
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: telegraf_systemd.changed
+  tags: telegraf

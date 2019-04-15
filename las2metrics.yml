@@ -1,11 +1,12 @@
 ---
-# This playbook deploys docker host utalizing centos as a backend.
+# This playbook updates a system
 
 - name: apply common configuration to all nodes
-  hosts: nextcloud
+  hosts: las2metrics
   remote_user: root
   roles:
     - common
     - docker
     - netdata
-    - nextcloud
+    - influxdb
+    - grafana

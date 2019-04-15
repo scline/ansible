@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  inluxdb:
+    image: influxdb
+    restart: always
+    user: root
+    ports:
+      - 8083:8083
+      - 8086:8086
+      - 8090:8090
+    volumes:
+      - /var/lib/influxdb:/var/lib/influxdb
+    environment:
+      TZ: {{ server_timezone }}

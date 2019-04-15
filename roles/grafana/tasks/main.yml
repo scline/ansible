@@ -1,20 +1,37 @@
 ---
-# Installs Netdata via dockercontainer on a linux host
+# Installs Grafana and Influxdb via dockercontainer on a linux host
 
-- name: configure the grafana settings
+- name: create /etc/docker/compose/grafana directory
+  file:
+    path: /etc/docker/compose/grafana
+    state: directory
+
+- name: create /var/lib/grafana directory
+  file:
+    path: /var/lib/grafana
+    state: directory
+
+- name: copy docker-compose template
   template: 
-    src=grafana.service.j2
-    dest=/usr/lib/systemd/system/grafana.service
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/grafana/docker-compose.yml
+  notify: restart grafana service
+
+- name: copy systemd service file
+  copy: 
+    src: grafana.service
+    dest: /usr/lib/systemd/system/grafana.service
   register: grafana_systemd
   notify: restart grafana service
-  tags: grafana
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: grafana_systemd.changed
   tags: grafana
 
-- name: allow grafana through firewall
-  shell: firewall-cmd --add-port=3000/tcp --permanent
-  notify: firewall reload
+- name: open port 3000 on firewalld
+  firewalld:
+    port: 3000/tcp
+    permanent: yes
+    state: enabled
   tags: grafana

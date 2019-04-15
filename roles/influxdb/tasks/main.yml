@@ -1,20 +1,51 @@
 ---
-# Installs Netdata via dockercontainer on a linux host
+# Installs Influxdb via dockercontainer on a linux host
 
-- name: configure the influxdb settings
+- name: create /etc/docker/compose/influxdb directory
+  file:
+    path: /etc/docker/compose/influxdb
+    state: directory
+
+- name: create /var/lib/influxdb directory
+  file:
+    path: /var/lib/influxdb
+    state: directory
+
+- name: copy docker-compose template
   template: 
-    src=influxdb.service.j2
-    dest=/usr/lib/systemd/system/influxdb.service
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/influxdb/docker-compose.yml
+  notify: restart influxdb service
+
+- name: copy systemd service file
+  copy: 
+    src: influxdb.service
+    dest: /usr/lib/systemd/system/influxdb.service
   register: influxdb_systemd
   notify: restart influxdb service
-  tags: influxdb
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: influxdb_systemd.changed
   tags: influxdb
 
-- name: allow influxdb through firewall
-  shell: firewall-cmd --add-port=8086/tcp --permanent
-  notify: firewall reload
+- name: open port 8083 on firewalld
+  firewalld:
+    port: 8083/tcp
+    permanent: yes
+    state: enabled
   tags: influxdb
+  
+- name: open port 8086 on firewalld
+  firewalld:
+    port: 8086/tcp
+    permanent: yes
+    state: enabled
+  tags: influxdb
+
+- name: open port 8090 on firewalld
+  firewalld:
+    port: 8090/tcp
+    permanent: yes
+    state: enabled
+  tags: influxdb  
