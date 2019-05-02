@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  webserver-vanilla:
+    hostname: vanilla-webserver
+    image: httpd:latest
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - /var/minecraft-map/vanilla-www/:/usr/local/apache2/htdocs/
+
+  webserver-pixelmon:
+    hostname: pixelmon-webserver
+    image: httpd:latest
+    restart: always
+    ports:
+      - 8081:80
+    volumes:
+      - /var/minecraft-map/pixelmon-www/:/usr/local/apache2/htdocs/

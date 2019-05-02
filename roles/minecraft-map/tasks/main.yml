@@ -1,8 +1,51 @@
+#- name: create required directories
+#  file:
+#    path: "{{ item }}"
+#    state: directory
+#    with_items:
+#      - /etc/docker/compose
+#      - /etc/docker/compose/minecraft-map
+#      - /var/minecraft-map
+#      - /var/minecraft-map/vanilla
+#      - /var/minecraft-map/pixelmon
+#      - /var/minecraft-map/vanilla-raw
+#      - /var/minecraft-map/pixelmon-raw
+#      - /var/minecraft-map/vanilla-www
+#      - /var/minecraft-map/pixelmon-www
+#      - /mnt/nfs/darkwindcraft
+
 - name: create required directories
   file:
-    path: ['/etc/docker/compose','/etc/docker/compose/minecraft-map','/var/minecraft-map','/var/minecraft-map/vanilla','/var/minecraft-map/pixelmon','/var/minecraft-map/vanilla-raw','/var/minecraft-map/pixelmon-raw','/var/minecraft-map/vanilla-www','/var/minecraft-map/pixelmon-www','/mnt/nfs/darkwindcraft']
+    path: /etc/docker/compose
     state: directory
-
+- file:
+    path: /etc/docker/compose/minecraft-map
+    state: directory
+- file:
+    path: /var/minecraft-map
+    state: directory
+- file:
+    path: /var/minecraft-map/vanilla
+    state: directory
+- file:
+    path: /var/minecraft-map/pixelmon
+    state: directory
+- file:
+    path: /var/minecraft-map/vanilla-raw
+    state: directory
+- file:
+    path: /var/minecraft-map/pixelmon-raw
+    state: directory
+- file:
+    path: /var/minecraft-map/vanilla-www
+    state: directory
+- file:
+    path: /var/minecraft-map/pixelmon-www
+    state: directory
+- file:
+    path: /mnt/nfs/darkwindcraft
+    state: directory
+    
 - name: install nfs client software
   yum:
     name: nfs-utils
@@ -29,3 +72,32 @@
   copy: 
     src: config.py
     dest: /etc/docker/compose/minecraft-map/config.py
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/minecraft-map/docker-compose.yml
+  notify: restart minecraft-map service
+
+- name: copy systemd service file
+  copy: 
+    src: minecraft-map.service
+    dest: /usr/lib/systemd/system/minecraft-map.service
+  register: minecraftmap_systemd
+  notify: restart minecraft-map service
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: minecraftmap_systemd.changed
+
+- name: open port on firewalld
+  firewalld:
+    port: "8080/tcp"
+    permanent: yes
+    state: enabled
+
+- name: open port on firewalld
+  firewalld:
+    port: "8081/tcp"
+    permanent: yes
+    state: enabled

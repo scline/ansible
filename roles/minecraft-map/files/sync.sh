@@ -35,3 +35,11 @@ docker run --rm -d \
 -v $v_zip_output:/home/minecraft/server/:ro \
 -v $v_www_output:/home/minecraft/render/:rw \
 mide/minecraft-overviewer:latest
+
+# Run container for rendering Pixelcraft
+docker run --rm -d \
+-e MINECRAFT_VERSION="1.14" \
+-v /etc/docker/compose/minecraft-map/config.py:/home/minecraft/config.py:ro \
+-v $p_zip_output:/home/minecraft/server/:ro \
+-v $p_www_output:/home/minecraft/render/:rw \
+mide/minecraft-overviewer:latest
