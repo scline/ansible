@@ -1,0 +1,31 @@
+- name: create required directories
+  file:
+    path: ['/etc/docker/compose','/etc/docker/compose/minecraft-map','/var/minecraft-map','/var/minecraft-map/vanilla','/var/minecraft-map/pixelmon','/var/minecraft-map/vanilla-raw','/var/minecraft-map/pixelmon-raw','/var/minecraft-map/vanilla-www','/var/minecraft-map/pixelmon-www','/mnt/nfs/darkwindcraft']
+    state: directory
+
+- name: install nfs client software
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/darkwindcraft
+    src: "{{ NFS_SHARE }}"
+    fstype: nfs
+    state: mounted
+
+- name: install unzip
+  yum:
+    name: unzip
+    state: present
+
+- name: copy sync script
+  copy: 
+    src: sync.sh
+    dest: /etc/docker/compose/minecraft-map/sync.sh
+
+- name: copy minecraft overworld configuration
+  copy: 
+    src: config.py
+    dest: /etc/docker/compose/minecraft-map/config.py
