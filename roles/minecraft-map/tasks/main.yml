@@ -101,3 +101,13 @@
     port: "8081/tcp"
     permanent: yes
     state: enabled
+
+- name: Changing perm of "/etc/docker/compose/minecraft-map/sync.sh", adding "+x"
+  file: dest=/etc/docker/compose/minecraft-map/sync.sh mode=a+x
+
+- name: Render from backup at 13:00 and 01:00
+  cron:
+    name: "Render Maps"
+    minute: "0"
+    hour: "13,1"
+    job: "/bin/bash /etc/docker/compose/minecraft-map/sync.sh"
