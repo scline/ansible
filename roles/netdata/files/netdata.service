@@ -9,6 +9,7 @@ RemainAfterExit=yes
 StandardError=null
 StandardOutput=null
 WorkingDirectory=/etc/docker/compose/netdata
+ExecStartPre=/usr/bin/docker-compose -f /etc/docker/compose/netdata/docker-compose.yml pull
 ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/netdata/docker-compose.yml up -d --force-recreate
 ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/netdata/docker-compose.yml down
 

@@ -9,6 +9,7 @@ RemainAfterExit=yes
 StandardError=null
 StandardOutput=null
 WorkingDirectory=/etc/docker/compose/guacamole
+ExecStartPre=/usr/bin/docker-compose -f /etc/docker/compose/guacamole/docker-compose.yml pull
 ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/guacamole/docker-compose.yml up -d
 ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/guacamole/docker-compose.yml down
 

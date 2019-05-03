@@ -53,3 +53,11 @@
   file:
     path: /etc/docker-compose
     state: directory
+
+- name: Create cron to clean up unused docker resrouces ever day
+  cron:
+    name: "Docker Prune"
+    minute: "0"
+    hour: "3"
+    job: "/usr/bin/docker system prune -f"
+    
