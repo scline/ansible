@@ -41,21 +41,30 @@ renders["night"] = {
     'markers': markers
 }
 
+renders["cave"] = {
+    'world': 'minecraft',
+    'title': 'Underground',
+    'rendermode': [Base(), EdgeLines(opacity=0.2), Cave(only_lit=True), SmoothLighting(strength=0.5), NoFluids()],
+    "dimension": "overworld",
+    'markers': markers
+}
+
 renders["nether"] = {
     "world": "minecraft",
     "title": "Nether",
-    "rendermode": 'nether_smooth_lighting',
+#    "rendermode": 'nether_smooth_lighting',
+    "rendermode": 'nether',
     "dimension": "nether",
     'markers': markers
 }
 
-renders["end"] = {
-    "world": "minecraft",
-    "title": "End",
-    "rendermode": [Base(), EdgeLines(), SmoothLighting(strength=0.5)],
-    "dimension": "end",
-    'markers': markers
-}
+#renders["end"] = {
+#    "world": "minecraft",
+#    "title": "End",
+#    "rendermode": [Base(), EdgeLines(), SmoothLighting(strength=0.5)],
+#    "dimension": "end",
+#    'markers': markers
+#}
 
 renders["overlay_biome"] = {
     'world': 'minecraft',
@@ -63,6 +72,15 @@ renders["overlay_biome"] = {
     'title': "Biome Coloring Overlay",
     "dimension": "overworld",
     'overlay': ["day"]
+}
+
+# Only for Pixelmon
+renders["UltraSpace"] = {
+    'world': 'minecraft',
+    'title': 'UltraSpace',
+    'rendermode': 'smooth_lighting',
+    "dimension": "ultra",
+    'markers': markers
 }
 
 #renders["overlay_mobs"] = {

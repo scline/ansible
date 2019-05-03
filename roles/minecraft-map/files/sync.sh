@@ -25,11 +25,11 @@ unzip -qou $p_zip_input -d $p_zip_output
 chmod 777 $p_www_output
 chmod 777 $v_www_output
 
-# Pull latest docker image
+# Pull latest docker image for updates
 docker pull mide/minecraft-overviewer:latest
 
 # Run container for rendering Vanilla
-docker run --rm -d \
+docker run --rm \
 -e MINECRAFT_VERSION="1.14" \
 -v /etc/docker/compose/minecraft-map/config.py:/home/minecraft/config.py:ro \
 -v $v_zip_output:/home/minecraft/server/:ro \
@@ -37,9 +37,9 @@ docker run --rm -d \
 mide/minecraft-overviewer:latest
 
 # Run container for rendering Pixelcraft
-docker run --rm -d \
+docker run --rm \
 -e MINECRAFT_VERSION="1.12.2" \
 -v /etc/docker/compose/minecraft-map/config.py:/home/minecraft/config.py:ro \
 -v $p_zip_output:/home/minecraft/server/:ro \
 -v $p_www_output:/home/minecraft/render/:rw \
-mide/minecraft-overviewer:latest
+mide/minecraft-overviewer:2019-01
