@@ -41,22 +41,21 @@ renders["night"] = {
     'markers': markers
 }
 
-renders["cave"] = {
-    'world': 'minecraft',
-    'title': 'Underground',
-    'rendermode': [Base(), EdgeLines(opacity=0.2), Cave(only_lit=True), SmoothLighting(strength=0.5), NoFluids()],
-    "dimension": "overworld",
-    'markers': markers
-}
+#renders["cave"] = {
+#    'world': 'minecraft',
+#    'title': 'Underground',
+#    'rendermode': [Base(), EdgeLines(opacity=0.2), Cave(only_lit=True), SmoothLighting(strength=0.5), NoFluids()],
+#    "dimension": "overworld",
+#    'markers': markers
+#}
 
-renders["nether"] = {
-    "world": "minecraft",
-    "title": "Nether",
+#renders["nether"] = {
+#    "world": "minecraft",
+#    "title": "Nether",
 #    "rendermode": 'nether_smooth_lighting',
-    "rendermode": 'nether',
-    "dimension": "nether",
-    'markers': markers
-}
+#    "dimension": "nether",
+#    'markers': markers
+#}
 
 #renders["end"] = {
 #    "world": "minecraft",
@@ -78,7 +77,7 @@ renders["overlay_biome"] = {
 renders["UltraSpace"] = {
     'world': 'minecraft',
     'title': 'UltraSpace',
-    'rendermode': 'smooth_lighting',
+    'rendermode': [Base(), EdgeLines(), SmoothLighting(strength=0.5)],
     "dimension": "ultra",
     'markers': markers
 }
