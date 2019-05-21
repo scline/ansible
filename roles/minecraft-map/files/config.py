@@ -1,6 +1,6 @@
 # https://github.com/mide/minecraft-overviewer/blob/master/config/config.py
 import os
-
+from observer import MultiplexingObserver, LoggingObserver, JSObserver
 
 def playerIcons(poi):
     if poi['id'] == 'Player':
@@ -15,31 +15,106 @@ def signFilter(poi):
         if '-- RENDER --' in poi.values():
             return "\n".join([poi['Text1'], poi['Text2'], poi['Text3'], poi['Text4']])
 
-
-worlds['minecraft'] = "/home/minecraft/server/world"
+worlds['Day'] = "/home/minecraft/server/world"
+worlds['Night'] = "/home/minecraft/server/world"
 outputdir = "/home/minecraft/render/"
 texturepath = "/home/minecraft/{}.jar".format(os.environ['MINECRAFT_VERSION'])
+
+# Construct the LoggingObserver
+loggingObserver = LoggingObserver()
+
+# Construct a basic JSObserver
+jsObserver = JSObserver(outputdir) # This assumes you have set the outputdir previous to this line
+
+# Set the observer to a MultiplexingObserver
+observer = MultiplexingObserver(loggingObserver, jsObserver)
 
 markers = [
     dict(name="Players", filterFunction=playerIcons),
     dict(name="Signs", filterFunction=signFilter)
 ]
 
-renders["day"] = {
-    'world': 'minecraft',
-    'title': 'Day',
+renders["day_nw"] = {
+    'world': 'Day',
+    'title': 'North West',
     'rendermode': 'smooth_lighting',
     "dimension": "overworld",
-    'markers': markers
+    'markers': markers,
+    "northdirection": "upper-left"
 }
 
-renders["night"] = {
-    'world': 'minecraft',
-    'title': 'Night',
+renders["day_ne"] = {
+    'world': 'Day',
+    'title': 'North East',
+    'rendermode': 'smooth_lighting',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "upper-right"
+}
+
+renders["day_sw"] = {
+    'world': 'Day',
+    'title': 'South West',
+    'rendermode': 'smooth_lighting',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "lower-left"
+}
+
+renders["day_se"] = {
+    'world': 'Day',
+    'title': 'South East',
+    'rendermode': 'smooth_lighting',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "lower-right"
+}
+
+renders["night_nw"] = {
+    'world': 'Night',
+    'title': 'North West',
     'rendermode': 'smooth_night',
     "dimension": "overworld",
-    'markers': markers
+    'markers': markers,
+    "northdirection": "upper-left"
 }
+
+renders["night_ne"] = {
+    'world': 'Night',
+    'title': 'North East',
+    'rendermode': 'smooth_night',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "upper-right"
+}
+
+renders["night_sw"] = {
+    'world': 'Night',
+    'title': 'South West',
+    'rendermode': 'smooth_night',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "lower-left"
+}
+
+renders["night_se"] = {
+    'world': 'Night',
+    'title': 'South East',
+    'rendermode': 'smooth_night',
+    "dimension": "overworld",
+    'markers': markers,
+    "northdirection": "lower-right"
+}
+
+# Only for Pixelmon
+#renders["UltraSpace"] = {
+#    'world': 'minecraft',
+#    'title': 'North West',
+#    'rendermode': [Base(), EdgeLines(), SmoothLighting(strength=0.5)],
+#    "dimension": "UltraSpace",
+#    'markers': markers,
+#    "northdirection": "upper-left"
+#}
 
 #renders["cave"] = {
 #    'world': 'minecraft',
@@ -65,31 +140,22 @@ renders["night"] = {
 #    'markers': markers
 #}
 
-renders["overlay_biome"] = {
-    'world': 'minecraft',
-    'rendermode': [ClearBase(), BiomeOverlay()],
-    'title': "Biome Coloring Overlay",
-    "dimension": "overworld",
-    'overlay': ["day"]
-}
-
-# Only for Pixelmon
-renders["UltraSpace"] = {
-    'world': 'minecraft',
-    'title': 'UltraSpace',
-    'rendermode': [Base(), EdgeLines(), SmoothLighting(strength=0.5)],
-    "dimension": "ultra",
-    'markers': markers
-}
+#renders["overlay_biome"] = {
+#    'world': 'minecraft',
+#    'rendermode': [ClearBase(), BiomeOverlay()],
+#    'title': "Biome Coloring Overlay",
+#    "dimension": "overworld",
+#    'overlay': ["day_nw"]
+#}
 
 #renders["overlay_mobs"] = {
 #    'world': 'minecraft',
 #    'rendermode': [ClearBase(), SpawnOverlay()],
 #    'title': "Mob Spawnable Areas Overlay",
 #    "dimension": "overworld",
-#    'overlay': ["day"]
+#    'overlay': ["day_nw"]
 #}
-#
+
 #renders["overlay_slime"] = {
 #    'world': 'minecraft',
 #    'rendermode': [ClearBase(), SlimeOverlay()],

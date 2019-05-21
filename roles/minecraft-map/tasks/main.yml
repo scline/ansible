@@ -28,10 +28,16 @@
     path: /var/minecraft-map/vanilla
     state: directory
 - file:
+    path: /var/minecraft-map/arckeya
+    state: directory
+- file:
     path: /var/minecraft-map/pixelmon
     state: directory
 - file:
     path: /var/minecraft-map/vanilla-raw
+    state: directory
+- file:
+    path: /var/minecraft-map/arckeya-raw
     state: directory
 - file:
     path: /var/minecraft-map/pixelmon-raw
@@ -43,7 +49,13 @@
     path: /var/minecraft-map/pixelmon-www
     state: directory
 - file:
+    path: /var/minecraft-map/arckeya-www
+    state: directory
+- file:
     path: /mnt/nfs/darkwindcraft
+    state: directory
+- file:
+    path: /mnt/nfs/arckeya
     state: directory
     
 - name: install nfs client software
@@ -55,6 +67,13 @@
   mount:
     path: /mnt/nfs/darkwindcraft
     src: "{{ NFS_SHARE }}"
+    fstype: nfs
+    state: mounted
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/arckeya
+    src: "{{ NFS_SHARE_02 }}"
     fstype: nfs
     state: mounted
 

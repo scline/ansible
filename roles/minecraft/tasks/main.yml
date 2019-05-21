@@ -1,0 +1,23 @@
+# Installs Netdata via dockercontainer on a linux host
+- name: install nfs client software
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: create /mnt/nfs/arckeya directory
+  file:
+    path: /mnt/nfs/arckeya
+    state: directory
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/arckeya
+    src: "172.18.2.15:/mnt/las2vpool01/arckeya"
+    fstype: nfs
+    state: mounted
+
+- name: open port on firewalld
+  firewalld:
+    port: "25565/tcp"
+    permanent: yes
+    state: enabled

@@ -10,10 +10,22 @@
     path: /mnt/nfs/darkwindcraft
     state: directory
 
+- name: create /mnt/nfs/arckeya directory
+  file:
+    path: /mnt/nfs/arckeya
+    state: directory
+
 - name: Mount up device by label
   mount:
     path: /mnt/nfs/darkwindcraft
     src: "{{ NFS_SHARE }}"
+    fstype: nfs
+    state: mounted
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/arckeya
+    src: "{{ NFS_SHARE_02 }}"
     fstype: nfs
     state: mounted
 

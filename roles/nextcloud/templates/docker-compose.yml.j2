@@ -30,7 +30,7 @@ services:
       - nextcloud:/var/www/html
       - apps:/var/www/html/custom_apps
       - config:/var/www/html/config/
-      - /mnt/nfs/darkwindcraft:/mnt/nfs/darkwindcraft
+      - /mnt/nfs/:/mnt/nfs/
     environment:
       - MYSQL_USER={{ NEXTCLOUD_MYSQL_USER }}    
       - MYSQL_PASSWORD={{ NEXTCLOUD_MYSQL_PASSWORD }}

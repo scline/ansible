@@ -18,3 +18,12 @@ services:
       - 8081:80
     volumes:
       - /var/minecraft-map/pixelmon-www/:/usr/local/apache2/htdocs/
+
+  webserver-arckeya:
+    hostname: pixelmon-webserver
+    image: httpd:latest
+    restart: always
+    ports:
+      - 8082:80
+    volumes:
+      - /var/minecraft-map/arckeya-www/:/usr/local/apache2/htdocs/
