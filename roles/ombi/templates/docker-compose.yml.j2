@@ -4,16 +4,14 @@ volumes:
   config:
 
 services:
-  plex:
-    image: plexinc/pms-docker
+  ombi:
+    image: linuxserver/ombi
     restart: always
     ports:
-      - 32400:32400
+      - 3579:3579
     volumes:
       - config:/config
-      - /mnt/nfs/plex:/data
     environment:
-      - PLEX_CLAIM={{ PLEX_CLAIM_CODE }}
       - TZ={{ server_timezone }}
 
   dyndns:
@@ -23,5 +21,5 @@ services:
       AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
       AWS_CONNECTION_REGION: us-east-1
-      ROUTE53_DOMAIN_A_RECORD: {{ PLEX_PUBLIC_FQDN }}
+      ROUTE53_DOMAIN_A_RECORD: {{ OMBI_PUBLIC_FQDN }}
       ROUTE53_UPDATE_FREQUENCY: 10800

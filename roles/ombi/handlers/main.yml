@@ -1,0 +1,3 @@
+---
+- name: restart ombi service
+  service: name=ombi state=restarted enabled=yes

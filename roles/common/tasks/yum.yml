@@ -3,7 +3,7 @@
 
 - name: installing/updating yum-cron services via "yum install"
   yum: 
-    name: ['cronie', 'yum-cron', 'git'] 
+    name: ['cronie', 'yum-cron', 'git', 'net-tools'] 
     state: present
 
 # should queue up and auto-install security packages

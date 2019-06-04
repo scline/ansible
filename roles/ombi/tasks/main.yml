@@ -1,0 +1,30 @@
+---
+# Installs Ombi via dockercontainer on a linux host
+
+- name: create /etc/docker/compose/ombi directory
+  file:
+    path: /etc/docker/compose/ombi
+    state: directory
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/ombi/docker-compose.yml
+  notify: restart ombi service
+
+- name: copy systemd service file
+  copy: 
+    src: ombi.service
+    dest: /usr/lib/systemd/system/ombi.service
+  register: ombi_systemd
+  notify: restart ombi service
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: ombi_systemd.changed
+
+- name: open port on firewalld
+  firewalld:
+    port: 3579/tcp
+    permanent: yes
+    state: enabled
