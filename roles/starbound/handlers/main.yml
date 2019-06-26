@@ -1,0 +1,3 @@
+---
+- name: restart starbound service
+  service: name=starbound state=restarted enabled=yes

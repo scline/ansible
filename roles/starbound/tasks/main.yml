@@ -1,0 +1,32 @@
+---
+# Installs Netdata via dockercontainer on a linux host
+
+- name: create /etc/docker/compose/starbound directory
+  file:
+    path: /etc/docker/compose/starbound
+    state: directory
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/starbound/docker-compose.yml
+  notify: restart starbound service
+
+- name: copy systemd service file
+  copy: 
+    src: starbound.service
+    dest: /usr/lib/systemd/system/starbound.service
+  register: starbound_systemd
+  notify: restart starbound service
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: starbound_systemd.changed
+  tags: starbound
+
+- name: open port 21025 on firewalld
+  firewalld:
+    port: 21025/tcp
+    permanent: yes
+    state: enabled
+  tags: starbound
