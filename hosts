@@ -1,14 +1,10 @@
 [all]
 
-#[pihole]
-#172.28.3.90 local_as=65901 bgp_vip=8.8.8.8
-#172.28.3.91 local_as=65901 bgp_vip=8.8.4.4
-
-#[home-assistant]
-#172.28.3.99
-
 [las2dockercompute200]
 172.18.0.16
+
+[las2dockercompute201]
+172.18.1.92
 
 [las2plex]
 172.18.1.90
@@ -21,9 +17,6 @@
 
 [las2starbound]
 172.18.2.94
-
-[minecraft]
-#172.18.2.92
 
 [las1rancher01]
 172.28.3.11

@@ -1,0 +1,17 @@
+# /etc/systemd/system/starbound.service
+[Unit]
+Description=Starbound Service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=null
+WorkingDirectory=/etc/docker/compose/starbound
+ExecStartPre=/usr/bin/docker-compose -f /etc/docker/compose/starbound/docker-compose.yml pull
+ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/starbound/docker-compose.yml up -d --force-recreate
+ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/starbound/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
