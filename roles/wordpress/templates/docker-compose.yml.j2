@@ -4,7 +4,7 @@ services:
    db:
      image: mysql:5.7
      volumes:
-       - db_data:/var/lib/mysql
+       - /mnt/nfs/docker/{{ NFS_DOCKER_DIRECTORY }}/db_data:/var/lib/mysql
      restart: always
      environment:
        MYSQL_ROOT_PASSWORD: {{ WORDPRESS_MYSQL_ROOT_PASSWORD }}
@@ -17,17 +17,14 @@ services:
        - db
      image: wordpress:latest
      volumes:
-       - /etc/docker/compose/wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-       - wp_content:/var/www/html/wp-content
+       - /mnt/nfs/docker/{{ NFS_DOCKER_DIRECTORY }}/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+       - /mnt/nfs/docker/{{ NFS_DOCKER_DIRECTORY }}/wp-content:/var/www/html/wp-content
+       - /mnt/nfs/docker/{{ NFS_DOCKER_DIRECTORY }}/wp-config.php:/var/www/html/wp-config.php
      ports:
        - "8000:80"
      restart: always
-     environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_USER: {{ WORDPRESS_MYSQL_USER }}
-       WORDPRESS_DB_PASSWORD: {{ WORDPRESS_MYSQL_PASSWORD }}
-       WORDPRESS_DB_NAME: {{ WORDPRESS_MYSQL_DATABASE }}
-
-volumes:
-    db_data:
-    wp_content:
+     #environment:
+       #WORDPRESS_DB_HOST: db:3306
+       #WORDPRESS_DB_USER: {{ WORDPRESS_MYSQL_USER }}
+       #WORDPRESS_DB_PASSWORD: {{ WORDPRESS_MYSQL_PASSWORD }}
+       #WORDPRESS_DB_NAME: {{ WORDPRESS_MYSQL_DATABASE }}
