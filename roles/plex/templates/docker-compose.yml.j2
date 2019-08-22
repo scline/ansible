@@ -16,13 +16,3 @@ services:
     environment:
       - PLEX_CLAIM={{ PLEX_CLAIM_CODE }}
       - TZ={{ server_timezone }}
-
-  dyndns:
-    image: bshaw/route53-dyndns
-    restart: always
-    environment:
-      AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
-      AWS_CONNECTION_REGION: us-east-1
-      ROUTE53_DOMAIN_A_RECORD: {{ PLEX_PUBLIC_FQDN }}
-      ROUTE53_UPDATE_FREQUENCY: 10800

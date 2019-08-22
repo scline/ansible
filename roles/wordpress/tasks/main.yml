@@ -19,6 +19,13 @@
   register: wordpress_systemd
   notify: restart wordpress service
 
+- name: copy upload settings file
+  copy: 
+    src: uploads.ini
+    dest: /etc/docker/compose/wordpress/uploads.ini
+  register: wordpress_systemd
+  notify: restart wordpress service
+
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: wordpress_systemd.changed
