@@ -1,0 +1,17 @@
+# /etc/systemd/system/speedtest.service
+[Unit]
+Description=speedtest Service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=null
+WorkingDirectory=/etc/docker/compose/speedtest
+ExecStartPre=/usr/bin/docker-compose -f /etc/docker/compose/speedtest/docker-compose.yml pull
+ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/speedtest/docker-compose.yml up -d --force-recreate
+ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/speedtest/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target

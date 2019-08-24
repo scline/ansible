@@ -19,11 +19,11 @@ ExecStart=/usr/bin/docker run \
                           --name home-assistant \
                           --init \
                           --pid=host \
-                          --net=host \
                           --device=/dev/ttyACM0:/zwaveusbstick \
+                          -p 80:8123 \
                           -v /var/docker/home-assistant:/config  \
-                          -e TZ={{ server_timezone }} \
-                          homeassistant/home-assistant:latest
+                          -e TZ=America/Los_Angeles \
+                          homeassistant/raspberrypi3-homeassistant:latest
 
 ExecStop=/usr/bin/docker stop home-assistant
 # The rm of the container should be covered by the `--rm` flag

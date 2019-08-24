@@ -1,0 +1,3 @@
+---
+- name: restart speedtest service
+  service: name=speedtest state=restarted enabled=yes
