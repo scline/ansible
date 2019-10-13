@@ -30,3 +30,4 @@
     permanent: yes
     state: enabled
   tags: netdata
+  

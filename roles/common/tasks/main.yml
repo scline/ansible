@@ -6,11 +6,17 @@
   authorized_key: user={{ ansible_user_id }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   ignore_errors: yes
 
+# only run this section if host is CentOS or RedHat based 
 - include: ntp.yml
+  when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version != '8') or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - include: selinux.yml
+  when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version != '8') or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - include: yum.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+######
 
+# install vmware-tools on host if running under VMware/ESX
 - include: vmtools.yml
   when: ansible_virtualization_type == 'VMware'

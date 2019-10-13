@@ -20,5 +20,5 @@
 
 - sysctl:
     name: vm.swappiness
-    value: 0
+    value: "0"
     state: present

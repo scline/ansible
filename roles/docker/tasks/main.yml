@@ -41,6 +41,7 @@
     name: docker-compose
     state: present
   become: yes
+  when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version != '8') or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Start Docker service
   service:
@@ -48,6 +49,10 @@
     state: started
     enabled: yes
   become: yes
+  when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version != '8') or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- include: centos8-docker-compose.yml
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '8'
 
 - name: Create docker-compose directory for future application settings
   file:

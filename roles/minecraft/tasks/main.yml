@@ -18,6 +18,6 @@
 
 - name: open port on firewalld
   firewalld:
-    port: "25565/tcp"
+    port: "8080/tcp"
     permanent: yes
     state: enabled
