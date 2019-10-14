@@ -1,5 +1,0 @@
-- name: open port on firewalld
-  firewalld:
-    port: "8080/tcp"
-    permanent: yes
-    state: enabled

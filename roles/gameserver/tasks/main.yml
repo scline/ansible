@@ -1,0 +1,46 @@
+---
+
+- file:
+    path: /mnt/nfs/darkwindcraft
+    state: directory
+- file:
+    path: /mnt/nfs/arckeya
+    state: directory
+
+- name: install nfs client software
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/darkwindcraft
+    src: "{{ NFS_SHARE }}"
+    fstype: nfs
+    state: mounted
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/nfs/arckeya
+    src: "{{ NFS_SHARE_02 }}"
+    fstype: nfs
+    state: mounted
+
+- name: open port 25565 on firewalld
+  firewalld:
+    port: "25565/tcp"
+    permanent: yes
+    state: enabled
+
+- name: open port 25566 on firewalld
+  firewalld:
+    port: "25565/tcp"
+    permanent: yes
+    state: enabled
+
+- name: open port 25567 on firewalld
+  firewalld:
+    port: "25567/tcp"
+    permanent: yes
+    state: enabled
+    

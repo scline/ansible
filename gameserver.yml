@@ -7,5 +7,4 @@
   roles:
     - common
     - docker
-    - netdata
-    - amp
+    - gameserver

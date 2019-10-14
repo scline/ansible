@@ -25,15 +25,6 @@
     path: /var/minecraft-map
     state: directory
 - file:
-    path: /var/minecraft-map/vanilla
-    state: directory
-- file:
-    path: /var/minecraft-map/arckeya
-    state: directory
-- file:
-    path: /var/minecraft-map/pixelmon
-    state: directory
-- file:
     path: /var/minecraft-map/vanilla-raw
     state: directory
 - file:
@@ -43,21 +34,12 @@
     path: /var/minecraft-map/pixelmon-raw
     state: directory
 - file:
-    path: /var/minecraft-map/vanilla-www
-    state: directory
-- file:
-    path: /var/minecraft-map/pixelmon-www
-    state: directory
-- file:
-    path: /var/minecraft-map/arckeya-www
-    state: directory
-- file:
     path: /mnt/nfs/darkwindcraft
     state: directory
 - file:
     path: /mnt/nfs/arckeya
     state: directory
-    
+
 - name: install nfs client software
   yum:
     name: nfs-utils
@@ -109,15 +91,21 @@
   systemd: daemon_reload=yes
   when: minecraftmap_systemd.changed
 
-- name: open port on firewalld
+- name: open port 8080 on firewalld
   firewalld:
     port: "8080/tcp"
     permanent: yes
     state: enabled
 
-- name: open port on firewalld
+- name: open port 8081 on firewalld
   firewalld:
     port: "8081/tcp"
+    permanent: yes
+    state: enabled
+
+- name: open port 8082 on firewalld
+  firewalld:
+    port: "8082/tcp"
     permanent: yes
     state: enabled
 

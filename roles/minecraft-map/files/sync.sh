@@ -4,17 +4,17 @@
 # Working Directory = /var/minecraft-map
 
 #Vanilla Variables
-v_www_output="/var/minecraft-map/vanilla-www"
+v_www_output="/mnt/nfs/darkwindcraft/mcmaps/vanilla-www"
 v_zip_output="/var/minecraft-map/vanilla-raw"
 v_zip_input=`ls -t /mnt/nfs/darkwindcraft/Vanilla/Databackup/*.zip | head -1`
 
 # Pixelmon Variables
-p_www_output="/var/minecraft-map/pixelmon-www"
+p_www_output="/mnt/nfs/darkwindcraft/mcmaps/pixelmon-www"
 p_zip_output="/var/minecraft-map/pixelmon-raw"
 p_zip_input=`ls -t /mnt/nfs/darkwindcraft/Pixelmon/Databackup/*.zip | head -1`
 
 # Arckeya Variables
-a_www_output="/var/minecraft-map/arckeya-www"
+a_www_output="/mnt/nfs/darkwindcraft/mcmaps/arckeya-www"
 a_zip_output="/var/minecraft-map/arckeya-raw"
 a_zip_input=`ls -t /mnt/nfs/arckeya/minecraft/databackups/*.zip | head -1`
 
