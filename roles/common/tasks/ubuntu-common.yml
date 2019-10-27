@@ -16,6 +16,10 @@
     size: +100%FREE
     resizefs: true
 
+- name: ubuntu | install apptitude package manager
+  apt:
+    name: "aptitude"
+    state: latest
+
 # setup ntp
 - include_tasks: ubuntu-ntp.yml
-
