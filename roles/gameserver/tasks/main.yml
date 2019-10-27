@@ -26,21 +26,17 @@
     fstype: nfs
     state: mounted
 
-- name: open port 25565 on firewalld
+- name: open port 8000-8200 on firewalld
   firewalld:
-    port: "25565/tcp"
+    port: "8000-8200/tcp"
     permanent: yes
     state: enabled
 
-- name: open port 25566 on firewalld
+- name: open port 25565-2560 on firewalld
   firewalld:
-    port: "25565/tcp"
+    port: "25565-2560/tcp"
     permanent: yes
     state: enabled
 
-- name: open port 25567 on firewalld
-  firewalld:
-    port: "25567/tcp"
-    permanent: yes
-    state: enabled
-    
+- name: Bounce firewalld
+  service: name=firewalld state=restarted
