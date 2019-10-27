@@ -1,0 +1,21 @@
+---
+# disable the need to passwords when using sudo, means 'ansible-playbook -K' is not required
+- name: ubuntu | disable the need to provide a password when using sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+# extend root directory to use all free space
+- name: ubuntu | extend the logical volume to consume all remaining space in the volume group and resize the underlying filesystem
+  lvol:
+    vg: ubuntu-vg
+    lv: ubuntu-lv
+    size: +100%FREE
+    resizefs: true
+
+# setup ntp
+- include_tasks: ubuntu-ntp.yml
+

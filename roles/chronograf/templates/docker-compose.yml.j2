@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  chronograf:
+    image: chronograf
+    restart: always
+    ports:
+      - 8888:8888
+    volumes:
+      - /var/lib/chronograf:/var/lib/chronograf
+    environment:
+      TZ: {{ server_timezone }}

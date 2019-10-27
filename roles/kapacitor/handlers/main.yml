@@ -1,0 +1,7 @@
+---
+- name: restart kapacitor service
+  service: name=kapacitor state=restarted enabled=yes
+
+- name: restart firewalld service
+  service: name=firewalld state=restarted
+  

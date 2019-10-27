@@ -35,13 +35,15 @@
     permanent: yes
     state: enabled
   tags: influxdb
-  
+  notify: restart firewalld service
+
 - name: open port 8086 on firewalld
   firewalld:
     port: 8086/tcp
     permanent: yes
     state: enabled
   tags: influxdb
+  notify: restart firewalld service
 
 - name: open port 8090 on firewalld
   firewalld:
@@ -49,3 +51,4 @@
     permanent: yes
     state: enabled
   tags: influxdb  
+  notify: restart firewalld service

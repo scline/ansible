@@ -10,7 +10,7 @@
 172.18.1.90
 
 [las2metrics]
-172.18.1.91
+172.18.0.100
 
 [las2minecraftmap01]
 #172.18.2.93
@@ -18,9 +18,6 @@
 
 [las2starbound]
 172.18.2.94
-
-[las1rancher01]
-172.28.3.11
 
 [gameserver]
 172.18.2.100

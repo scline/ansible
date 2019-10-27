@@ -37,6 +37,3 @@
     port: "25565-2560/tcp"
     permanent: yes
     state: enabled
-
-- name: Bounce firewalld
-  service: name=firewalld state=restarted

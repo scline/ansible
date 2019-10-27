@@ -10,4 +10,5 @@
     - telegraf
     - netdata
     - influxdb
-    
+    - chronograf
+    - kapacitor

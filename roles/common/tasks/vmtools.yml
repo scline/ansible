@@ -1,24 +1,24 @@
 ---
-# Install vmware tools if host is controlled by VMWare
-
-# EPEL is required for open-vm-tools
-- name: installing epel-release
+- name: centos | installing epel-release
   package:
     name: epel-release
     state: present
+  when: ansible_os_family == "RedHat"
 
-- name: installing open-vm-tools 
-  package:
-    name: open-vm-tools
-    state: present
+- name: centos | installing open-vm-tools if a vm
+  yum: name=open-vm-tools state=present
+  when: ansible_os_family == "RedHat"
 
-- name: start the vmtoolsd service and forcing to start on reboot
-  service: 
-    name=vmtoolsd 
-    state=started 
-    enabled=yes
+- name: centos | starting and enabling open-vm-tools
+  service: name=vmtoolsd.service state=restarted enabled=yes
+  when: ansible_os_family == "RedHat"
 
-- sysctl:
+- name: ubuntu | installing open-vm-tools
+  apt: name=open-vm-tools state=present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: setting swappiness to 10
+  sysctl:
     name: vm.swappiness
-    value: "0"
+    value: "10"
     state: present
