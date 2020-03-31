@@ -1,18 +1,4 @@
 ---
-- name: centos | installing epel-release
-  package:
-    name: epel-release
-    state: present
-  when: ansible_os_family == "RedHat"
-
-- name: centos | installing open-vm-tools if a vm
-  yum: name=open-vm-tools state=present
-  when: ansible_os_family == "RedHat"
-
-- name: centos | starting and enabling open-vm-tools
-  service: name=vmtoolsd.service state=restarted enabled=yes
-  when: ansible_os_family == "RedHat"
-
 - name: ubuntu | installing open-vm-tools
   apt: name=open-vm-tools state=present
   when: ansible_distribution == 'Ubuntu'

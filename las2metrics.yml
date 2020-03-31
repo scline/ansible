@@ -3,7 +3,7 @@
 
 - name: apply common configuration to all nodes
   hosts: las2metrics
-#  remote_user: root
   become: true
   roles:
     - common
+    - docker

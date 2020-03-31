@@ -5,9 +5,6 @@
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   ignore_errors: yes
 
-- include_tasks: centos-common.yml
-  when: ansible_os_family == "RedHat"
-
 - include_tasks: ubuntu-common.yml
   when: ansible_distribution == 'Ubuntu'
 

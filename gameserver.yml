@@ -3,8 +3,8 @@
 
 - name: apply common configuration to all nodes
   hosts: gameserver
-  remote_user: root
+  become: true
   roles:
     - common
     - docker
-    - gameserver
+#    - gameserver

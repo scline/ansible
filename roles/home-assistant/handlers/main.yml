@@ -1,6 +1,0 @@
----
-- name: restart home-assistant service
-  service: name=home-assistant state=restarted enabled=yes
-
-- name: firewall reload
-  shell: firewall-cmd --reload

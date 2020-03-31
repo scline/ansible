@@ -1,3 +1,0 @@
----
-- name: restart rancher service
-  service: name=rancher state=restarted enabled=yes

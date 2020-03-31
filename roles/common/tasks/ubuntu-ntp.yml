@@ -4,3 +4,7 @@
 
 - name: Make sure NTP is started up
   service: name=ntp state=started enabled=yes
+
+- name: Set timezone
+  timezone:
+    name: "{{ server_timezone }}"

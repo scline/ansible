@@ -9,10 +9,3 @@
   apt:
     autoclean: yes
   when: ansible_distribution == "Ubuntu"
-
-- name: centos | upgrade all packages
-  yum:
-    name: "*"
-    state: latest
-    exclude: docker*
-  when: ansible_os_family == "RedHat"

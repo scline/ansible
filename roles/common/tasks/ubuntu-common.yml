@@ -15,7 +15,9 @@
     lv: ubuntu-lv
     size: +100%FREE
     resizefs: true
+  ignore_errors: yes
 
+# ansible pref this manager over apt-get
 - name: ubuntu | install apptitude package manager
   apt:
     name: "aptitude"
