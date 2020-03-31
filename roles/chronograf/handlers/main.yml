@@ -1,6 +1,0 @@
----
-- name: restart chronograf service
-  service: name=chronograf state=restarted enabled=yes
-
-- name: restart firewalld service
-  service: name=firewalld state=restarted
