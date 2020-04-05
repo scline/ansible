@@ -1,0 +1,3 @@
+---
+- name: restart portainer service
+  service: name=portainer state=restarted enabled=yes daemon_reload=yes

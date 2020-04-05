@@ -2,8 +2,10 @@
 # This playbook updates a system
 
 - name: apply common configuration to all nodes
-  hosts: las2metrics
+  hosts: dockercompute
   become: true
   roles:
     - common
     - docker
+    - netdata
+    - portainer

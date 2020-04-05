@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  portainer:
+    image: portainer/portainer
+    restart: always
+    ports:
+      - 8000:8000
+      - 80:9000
+    privileged: true
+    volumes:
+      - /etc/docker/compose/portainer/data:/data 
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: {{ server_timezone }}
