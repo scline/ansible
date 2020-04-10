@@ -1,4 +1,9 @@
 [all]
+10.2.0.10
+
 
 [dockercompute]
 10.1.3.50
+
+[influxdb]
+10.1.3.99

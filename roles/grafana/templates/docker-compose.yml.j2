@@ -10,23 +10,3 @@ services:
       - /var/lib/grafana:/var/lib/grafana
     environment:
       TZ: {{ server_timezone }}
-
-  dyndns_packetpals:
-    image: bshaw/route53-dyndns
-    restart: always
-    environment:
-      AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
-      AWS_CONNECTION_REGION: us-east-1
-      ROUTE53_DOMAIN_A_RECORD: {{ GRAFANA_PUBLIC_FQDN }}
-      ROUTE53_UPDATE_FREQUENCY: 10800
-
-  dyndns_darkwindcraft:
-    image: bshaw/route53-dyndns
-    restart: always
-    environment:
-      AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
-      AWS_CONNECTION_REGION: us-east-1
-      ROUTE53_DOMAIN_A_RECORD: {{ GRAFANA_PUBLIC_FQDN2 }}
-      ROUTE53_UPDATE_FREQUENCY: 10800

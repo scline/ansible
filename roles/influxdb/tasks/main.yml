@@ -20,35 +20,10 @@
 - name: copy systemd service file
   copy: 
     src: influxdb.service
-    dest: /usr/lib/systemd/system/influxdb.service
+    dest: /etc/systemd/system/influxdb.service
   register: influxdb_systemd
   notify: restart influxdb service
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: influxdb_systemd.changed
-  tags: influxdb
-
-- name: open port 8083 on firewalld
-  firewalld:
-    port: 8083/tcp
-    permanent: yes
-    state: enabled
-  tags: influxdb
-  notify: restart firewalld service
-
-- name: open port 8086 on firewalld
-  firewalld:
-    port: 8086/tcp
-    permanent: yes
-    state: enabled
-  tags: influxdb
-  notify: restart firewalld service
-
-- name: open port 8090 on firewalld
-  firewalld:
-    port: 8090/tcp
-    permanent: yes
-    state: enabled
-  tags: influxdb  
-  notify: restart firewalld service

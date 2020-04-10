@@ -20,18 +20,10 @@
 - name: copy systemd service file
   copy: 
     src: grafana.service
-    dest: /usr/lib/systemd/system/grafana.service
+    dest: /etc/systemd/system/grafana.service
   register: grafana_systemd
   notify: restart grafana service
 
 - name: force systemd to reread configs
   systemd: daemon_reload=yes
   when: grafana_systemd.changed
-  tags: grafana
-
-- name: open port 3000 on firewalld
-  firewalld:
-    port: 3000/tcp
-    permanent: yes
-    state: enabled
-  tags: grafana

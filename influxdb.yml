@@ -1,0 +1,11 @@
+---
+# This playbook updates a system
+
+- name: apply common configuration to all nodes
+  hosts: influxdb
+  become: true
+  roles:
+    - common
+    - docker
+    - netdata
+    - influxdb
