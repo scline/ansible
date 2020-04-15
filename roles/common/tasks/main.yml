@@ -1,7 +1,8 @@
 ---
 - name: update remote authorized SSH keys for future ansible runs
   authorized_key: 
-    user: "{{ lookup('env','USER') }}" 
+    #user: "{{ lookup('env','USER') }}" 
+    user: "{{ ansible_user }}"
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   ignore_errors: yes
 

@@ -1,0 +1,11 @@
+---
+# This playbook updates a system
+
+- name: apply common configuration to all nodes
+  hosts: librenms
+  become: true
+  roles:
+    - common
+    - docker
+    - netdata
+    - librenms

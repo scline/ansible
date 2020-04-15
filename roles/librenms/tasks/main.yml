@@ -1,0 +1,65 @@
+---
+# Installs librenms via dockercontainer on a linux host
+
+- name: Add group librenms
+  group:
+    name: librenms
+    gid: "{{ PGID }}"
+    state: present
+
+- name: Add the user librenms
+  user:
+    name: librenms
+    uid: "{{ PUID }}"
+    groups: librenms
+
+- name: create /etc/docker/compose/librenms directory
+  file:
+    path: /etc/docker/compose/librenms
+    state: directory
+
+- name: create /opt/librenms directory
+  file:
+    path: /opt/librenms
+    state: directory
+    owner: librenms
+    group: librenms
+
+- name: create /opt/librenms/config directory
+  file:
+    path: /opt/librenms/config
+    state: directory
+    owner: librenms
+    group: librenms
+    
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/librenms/docker-compose.yml
+  register: librenms_config
+
+- name: copy docker-compose environment file
+  template: 
+    src: librenms.env.j2
+    dest: /etc/docker/compose/librenms/librenms.env
+  register: librenms_env
+
+- name: copy systemd service file
+  copy: 
+    src: librenms.service
+    dest: /etc/systemd/system/librenms.service
+  register: librenms_systemd
+
+- name: copy librenms extra configs
+  template: 
+    src: extraconfig.php.j2
+    dest: /opt/librenms/config/extraconfig.php
+  register: librenms_settings
+
+- name: force systemd to reread configs
+  systemd: daemon_reload=yes
+  when: librenms_systemd.changed
+
+- name: restart librenms service
+  service: name=librenms state=restarted enabled=yes
+  when: librenms_systemd.changed or librenms_config.changed or librenms_env.changed or librenms_settings.changed

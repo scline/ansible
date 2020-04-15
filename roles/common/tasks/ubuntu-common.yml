@@ -25,3 +25,6 @@
 
 # setup ntp
 - include_tasks: ubuntu-ntp.yml
+
+# setup snmp
+- include_tasks: ubuntu-snmp.yml

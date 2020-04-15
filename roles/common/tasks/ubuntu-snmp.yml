@@ -1,0 +1,6 @@
+---
+- name: Install SNMPD
+  apt: package=snmpd,ntpdate state=present update_cache=yes
+
+- name: Make sure SNMPD is started up
+  service: name=snmpd state=started enabled=yes
