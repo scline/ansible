@@ -9,3 +9,10 @@
 
 [librenms]
 10.1.3.98
+
+[cacti_master]
+10.1.3.95
+
+[cacti_poller]
+10.1.3.96 HOSTNAME=las1cactipoller01
+10.2.0.96 HOSTNAME=las2cactipoller01

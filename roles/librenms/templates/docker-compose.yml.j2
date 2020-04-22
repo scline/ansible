@@ -24,6 +24,10 @@ services:
   memcached:
     image: memcached:alpine
     container_name: librenms_memcached
+    ports:
+      - target: 11211
+        published: 11211
+        protocol: tcp
     environment:
       - "TZ={{ server_timezone }}"
     restart: always
@@ -31,6 +35,10 @@ services:
   rrdcached:
     image: crazymax/rrdcached
     container_name: librenms_rrdcached
+    ports:
+      - target: 42217
+        published: 42217
+        protocol: tcp
     volumes:
       - "/opt/librenms/rrd:/data/db"
       - "/opt/librenms/rrd-journal:/data/journal"
@@ -135,20 +143,4 @@ services:
       - "SIDECAR_SYSLOGNG=1"
     env_file:
       - "./librenms.env"
-    restart: always
-
-  nfs-server:
-    image: itsthenetwork/nfs-server-alpine:latest
-    container_name: librenms_nfs
-    privileged: true
-    environment:
-      - "TZ={{ server_timezone }}"
-      - "SHARED_DIRECTORY=/rrd"
-#      - "PERMITTED=10.1.3.*"
-    ports:
-      - target: 2049
-        published: 2049
-        protocol: tcp
-    volumes:
-      - "/opt/librenms/rrd:/rrd"
     restart: always

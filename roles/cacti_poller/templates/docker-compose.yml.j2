@@ -1,0 +1,72 @@
+version: '2'
+services:
+
+
+  cacti:
+    image: "smcline06/cacti"
+    container_name: cacti
+    domainname: packetpals.net
+    hostname: "{{ HOSTNAME }}"
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DB_NAME=cacti_poller
+      - DB_USER={{ MYSQL_USER }}
+      - DB_PASS={{ MYSQL_PASSWORD }}
+      - DB_HOST={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+      - DB_PORT=3306
+      - RDB_NAME=cacti_master
+      - RDB_USER={{ MYSQL_USER }}
+      - RDB_PASS={{ MYSQL_PASSWORD }}
+      - RDB_HOST={{ MASTER_DB_HOST }}
+      - RDB_PORT=3306
+      - DB_ROOT_PASS={{ MYSQL_ROOTPASSWORD }}
+      - REMOTE_POLLER=1
+      - INITIALIZE_DB=1
+      - PHP_SNMP=0
+      - TZ=America/Los_Angeles
+    volumes:
+      - cacti-data:/cacti
+      - cacti-spine:/spine
+      - cacti-backups:/backups
+
+
+  db:
+    image: "mariadb:10.3"
+    container_name: cacti_db
+    domainname: packetpals.net
+    hostname: db
+    ports:
+      - "3306:3306"
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --max_connections=200
+      - --max_heap_table_size=128M
+      - --max_allowed_packet=32M
+      - --tmp_table_size=128M
+      - --join_buffer_size=128M
+      - --innodb_buffer_pool_size=1G
+      - --innodb_doublewrite=ON
+      - --innodb_flush_log_at_timeout=3
+      - --innodb_read_io_threads=32
+      - --innodb_write_io_threads=16
+      - --innodb_buffer_pool_instances=9
+      - --innodb_file_format=Barracuda
+      - --innodb_large_prefix=1
+      - --innodb_io_capacity=5000
+      - --innodb_io_capacity_max=10000
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ MYSQL_ROOTPASSWORD }}
+      - TZ=America/Los_Angeles
+    volumes:
+      - cacti-db:/var/lib/mysql
+
+
+volumes:
+  cacti-db:
+  cacti-data:
+  cacti-spine:
+  cacti-backups:
