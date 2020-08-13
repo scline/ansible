@@ -4,9 +4,11 @@ services:
   grafana:
     image: grafana/grafana
     restart: always
-    ports:
-      - 3000:3000
+    network_mode: host
     volumes:
-      - /var/lib/grafana:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
     environment:
       TZ: {{ server_timezone }}
+
+volumes:
+  grafana-data:

@@ -1,3 +1,0 @@
----
-- name: restart plex service
-  service: name=plex state=restarted enabled=yes
