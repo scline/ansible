@@ -11,3 +11,5 @@
     - influxdb
     - grafana
     - telegraf
+    - prometheus
+    - portainer-agent

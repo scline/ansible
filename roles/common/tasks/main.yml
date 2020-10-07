@@ -6,11 +6,11 @@
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   ignore_errors: yes
 
+- include_tasks: update.yml
+  when: ansible_os_family == "RedHat" or ansible_distribution == 'Ubuntu'
+  
 - include_tasks: ubuntu-common.yml
   when: ansible_distribution == 'Ubuntu'
 
 - include_tasks: vmtools.yml
   when: ansible_virtualization_type == "VMware"
-
-- include_tasks: update.yml
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'Ubuntu'

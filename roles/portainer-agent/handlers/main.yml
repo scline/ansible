@@ -1,0 +1,3 @@
+---
+- name: restart portainer-agent service
+  service: name=portainer-agent state=restarted enabled=yes daemon_reload=yes

@@ -1,0 +1,26 @@
+---
+# Installs portainer via dockercontainer on a linux host
+
+- name: create /etc/docker/compose/portainer-agent directory
+  file:
+    path: /etc/docker/compose/portainer-agent
+    state: directory
+
+- name: create /etc/docker/compose/portainer-agent/data directory
+  file:
+    path: /etc/docker/compose/portainer-agent/data
+    state: directory
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/portainer-agent/docker-compose.yml
+  register: portainer_compose
+  notify: restart portainer-agent service
+
+- name: copy systemd service file
+  copy: 
+    src: portainer-agent.service
+    dest: /etc/systemd/system/portainer-agent.service
+  register: portainer_systemd
+  notify: restart portainer-agent service
