@@ -2,7 +2,9 @@
 # This playbook updates a system
 
 - name: apply common configuration to all nodes
-  hosts: all
+  hosts: docker
   become: true
   roles:
+    - system-common
     - docker
+    - netdata
