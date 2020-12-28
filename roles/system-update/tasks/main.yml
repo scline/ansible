@@ -1,5 +1,9 @@
 ---
-# if system is Ubuntu, run the following play to update the operating system
-- include_tasks: ubuntu-update.yml
+# Ubuntu only tasks
+- name: Ubuntu only tasks
+  include_tasks: "{{ item }}"
+  loop:
+    - ubuntu-update.yml
+    - ubuntu-clean.yml
+    - ubuntu-reboot.yml
   when: ansible_distribution == 'Ubuntu'
-  

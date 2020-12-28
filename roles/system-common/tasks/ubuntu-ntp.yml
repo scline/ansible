@@ -1,15 +1,17 @@
 ---
-- name: ubuntu | install NTP
+- name: Ubuntu | Install NTP
   apt: 
     name: ntp
     state: present
+    update_cache: yes
+    cache_valid_time: 3600
 
-- name: ubuntu | start NTP service
+- name: Ubuntu | Start NTP service
   service: 
     name: ntp 
     state: started 
     enabled: yes
 
-- name: ubuntu | set system timezone
+- name: Ubuntu | Set system timezone
   timezone:
     name: "{{ server_timezone }}"

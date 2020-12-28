@@ -1,0 +1,15 @@
+---
+- name: Ubuntu | Installing open-vm-tools
+  apt: 
+    name: open-vm-tools
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_virtualization_type == 'VMware'
+
+- name: Ubuntu | Setting swappiness to 1
+  sysctl:
+    name: vm.swappiness
+    value: "1"
+    state: present
+  when: ansible_virtualization_type == 'VMware'
