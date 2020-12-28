@@ -1,8 +1,8 @@
 ---
 - name: ubuntu | install NTP
   apt: 
-    package: ntp
-    state: present 
+    name: ntp
+    state: present
 
 - name: ubuntu | start NTP service
   service: 

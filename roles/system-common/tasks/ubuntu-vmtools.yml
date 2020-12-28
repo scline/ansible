@@ -3,7 +3,6 @@
   apt: 
     name: open-vm-tools
     state: present
-  when: ansible_distribution == 'Ubuntu'
 
 - name: ubuntu | setting swappiness to 1
   sysctl:
