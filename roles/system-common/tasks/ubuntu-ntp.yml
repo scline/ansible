@@ -2,8 +2,7 @@
 - name: ubuntu | install NTP
   apt: 
     package: ntp
-    ntpdate state: present 
-    update_cache: yes
+    state: present 
 
 - name: ubuntu | start NTP service
   service: 
