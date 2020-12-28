@@ -4,6 +4,6 @@
     update_cache: yes 
     cache_valid_time: 3600
 
-- name: Ubuntu | upgrade all packages to the latest version
+- name: Ubuntu | Upgrade all packages to the latest version
   apt:
     upgrade: 'yes'
