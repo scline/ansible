@@ -4,6 +4,3 @@
 
 - name: restart ntp service
   service: name=ntpd state=restarted enabled=yes
-
-- name: restart snmpd service
-  service: name=snmpd state=restarted enabled=yes

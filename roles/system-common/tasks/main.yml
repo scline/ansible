@@ -1,16 +1,15 @@
 ---
 - name: update remote authorized SSH keys for future ansible runs
   authorized_key: 
-    #user: "{{ lookup('env','USER') }}" 
     user: "{{ ansible_user }}"
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   ignore_errors: yes
-
-- include_tasks: update.yml
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'Ubuntu'
   
+# ubuntu plays
 - include_tasks: ubuntu-common.yml
   when: ansible_distribution == 'Ubuntu'
 
-- include_tasks: vmtools.yml
-  when: ansible_virtualization_type == "VMware"
+- include_tasks: ubuntu-ntp.yml
+
+- include_tasks: ubuntu-vmtools.yml
+  when: ansible_virtualization_type == 'VMware' && ansible_distribution == 'Ubuntu'

@@ -1,0 +1,16 @@
+---
+- name: ubuntu | install NTP
+  apt: 
+    package: ntp
+    ntpdate state: present 
+    update_cache: yes
+
+- name: ubuntu | start NTP service
+  service: 
+    name: ntp 
+    state: started 
+    enabled: yes
+
+- name: ubuntu | set system timezone
+  timezone:
+    name: "{{ server_timezone }}"

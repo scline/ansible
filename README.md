@@ -1,2 +1,4 @@
 # ansible-home
-Ansible plays I use in my home lab and server orchestration. No support is given as this is purely for personal use.
+Collection of Ansible playbooks I use for my home infrastructure. This is paired with [Ansible AWX](https://github.com/ansible/awx) via Github intigrations.
+
+No support is given for playbooks or things in this repository.

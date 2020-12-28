@@ -3,9 +3,7 @@
   apt:
     name: "*"
     state: latest
-  when: ansible_distribution == "Ubuntu"
 
 - name: ubuntu | remove useless packages from the cache
   apt:
     autoclean: yes
-  when: ansible_distribution == "Ubuntu"

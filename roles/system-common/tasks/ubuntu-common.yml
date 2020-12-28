@@ -16,15 +16,3 @@
     size: +100%FREE
     resizefs: true
   ignore_errors: yes
-
-# ansible pref this manager over apt-get
-- name: ubuntu | install apptitude package manager
-  apt:
-    name: "aptitude"
-    state: latest
-
-# setup ntp
-- include_tasks: ubuntu-ntp.yml
-
-# setup snmp
-- include_tasks: ubuntu-snmp.yml

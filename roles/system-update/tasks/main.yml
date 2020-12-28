@@ -1,0 +1,5 @@
+---
+# if system is Ubuntu, run the following play to update the operating system
+- include_tasks: ubuntu-update.yml
+  when: ansible_distribution == 'Ubuntu'
+  
