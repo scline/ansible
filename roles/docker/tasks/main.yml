@@ -1,0 +1,4 @@
+---
+# Playbook to install and configure docker
+- include_tasks: ubuntu-docker.yml
+  when: ansible_distribution == 'Ubuntu'
