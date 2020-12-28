@@ -1,0 +1,7 @@
+---
+- name: restart netdata service
+  service: 
+    name: netdata 
+    state: restarted 
+    enabled: yes 
+    daemon_reload: yes
