@@ -4,9 +4,6 @@ services:
   netdata:
     image: newrelic/infrastructure:latest
     restart: always
-    user: root
-    pid: "host"
-    network_mode: "host"
     privileged: true
     cap_add:
       - SYS_PTRACE
