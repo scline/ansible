@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  netdata:
+    image: newrelic/infrastructure:latest
+    restart: always
+    user: root
+    pid: "host"
+    network_mode: "host"
+    privileged: true
+    cap_add:
+      - SYS_PTRACE
+    volumes:
+      - /:/host:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: {{ server_timezone }}
+      NRIA_LICENSE_KEY: {{ NRIA_LICENSE_KEY }}
+

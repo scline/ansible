@@ -1,0 +1,17 @@
+# /etc/systemd/system/newrelic.service
+[Unit]
+Description=newrelic Service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardError=null
+StandardOutput=null
+WorkingDirectory=/etc/docker/compose/newrelic
+ExecStartPre=/usr/bin/docker-compose -f /etc/docker/compose/newrelic/docker-compose.yml pull
+ExecStart=/usr/bin/docker-compose -f /etc/docker/compose/newrelic/docker-compose.yml up -d --force-recreate
+ExecStop=/usr/bin/docker-compose -f /etc/docker/compose/newrelic/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
