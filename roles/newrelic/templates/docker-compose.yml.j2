@@ -3,6 +3,7 @@ version: '3'
 services:
   netdata:
     image: newrelic/infrastructure:latest
+    hostname: {{ ansible_hostname }}
     restart: always
     privileged: true
     cap_add:
@@ -13,4 +14,4 @@ services:
     environment:
       TZ: {{ server_timezone }}
       NRIA_LICENSE_KEY: {{ NRIA_LICENSE_KEY }}
-
+      NRIA_ENABLE_PROCESS_METRICS: True
