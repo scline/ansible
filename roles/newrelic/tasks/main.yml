@@ -1,0 +1,21 @@
+---
+# Installs newrelic via dockercontainer on a linux host
+
+- name: create /etc/docker/compose/newrelic directory
+  file:
+    path: /etc/docker/compose/newrelic
+    state: directory
+
+- name: copy docker-compose template
+  template: 
+    src: docker-compose.yml.j2
+    dest: /etc/docker/compose/newrelic/docker-compose.yml
+  register: newrelic_compose
+  notify: restart newrelic service
+
+- name: copy systemd service file
+  copy: 
+    src: newrelic.service
+    dest: /etc/systemd/system/newrelic.service
+  register: newrelic_systemd
+  notify: restart newrelic service

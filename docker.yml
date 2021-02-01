@@ -9,3 +9,4 @@
     - docker
     - netdata
     - portainer-agent
+    - newrelic

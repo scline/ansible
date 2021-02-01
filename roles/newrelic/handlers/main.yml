@@ -1,0 +1,7 @@
+---
+- name: restart newrelic service
+  service: 
+    name: newrelic
+    state: restarted 
+    enabled: yes 
+    daemon_reload: yes
