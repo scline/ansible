@@ -1,0 +1,8 @@
+---
+- name: restart wings service
+  service: 
+    name: wings 
+    state: restarted 
+    enabled: yes 
+    daemon_reload: yes
+  ignore_errors: true

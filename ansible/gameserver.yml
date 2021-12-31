@@ -1,0 +1,11 @@
+---
+# This playbook updates a system
+
+- name: apply common configuration to all nodes
+  hosts: gameserver
+  become: true
+  roles:
+    - system-common
+    - docker
+    - netdata
+    - pterodactyl-wings

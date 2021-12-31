@@ -1,3 +1,0 @@
----
-- name: restart prom service
-  service: name=prom state=restarted enabled=yes

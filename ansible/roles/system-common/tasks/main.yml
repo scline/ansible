@@ -1,0 +1,12 @@
+---
+# Ubuntu only tasks
+- name: Ubuntu only tasks
+  include_tasks: "{{ item }}"
+  loop:
+    - ubuntu-common.yml
+    - ubuntu-swap.yml
+    - ubuntu-ntp.yml
+    - ubuntu-vmware.yml
+    - ubuntu-kvm.yml
+    - ubuntu-clean.yml
+  when: ansible_distribution == 'Ubuntu'

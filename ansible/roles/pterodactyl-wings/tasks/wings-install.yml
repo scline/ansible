@@ -1,0 +1,19 @@
+---
+- name: create /etc/pterodactyl directory
+  file:
+    path: /etc/pterodactyl
+    state: directory
+  become: true
+
+- name: download Wings software
+  get_url:
+    url: https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_amd64
+    dest: /usr/local/bin/wings
+    mode: u+x
+  become: true 
+
+- name: copy systemd service file
+  copy: 
+    src: wings.service
+    dest: /etc/systemd/system/wings.service
+  notify: restart wings service

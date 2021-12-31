@@ -1,0 +1,8 @@
+---
+- name: Ubuntu | Installing open-vm-tools
+  apt: 
+    name: open-vm-tools
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_virtualization_type == 'VMware'

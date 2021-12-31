@@ -1,0 +1,15 @@
+---
+# Handler to handle common notifications. Handlers are called by other plays.
+# See http://docs.ansible.com/playbooks_intro.html for more information about handlers.
+
+- name: restart ntp service
+  service: 
+    name: ntpd 
+    state: restarted 
+    enabled: yes
+
+- name: restart qemu-guest-agent service
+  service: 
+    name: qemu-guest-agent 
+    state: restarted 
+    enabled: yes 

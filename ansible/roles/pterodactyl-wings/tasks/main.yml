@@ -1,0 +1,13 @@
+---
+# Installs pterodactyl (https://pterodactyl.io/wings/1.0/installing.html)
+
+- name: Check if Wings is already installed
+  stat:
+    path: /usr/local/bin/wings
+  register: wings
+
+- name: Install Wings
+  include_tasks: "{{ item }}"
+  loop:
+    - wings-install.yml
+  when: not wings.stat.exists

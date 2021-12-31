@@ -1,3 +1,0 @@
----
-- name: restart minecraft-map service
-  service: name=minecraft-map state=restarted enabled=yes

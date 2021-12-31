@@ -1,0 +1,15 @@
+---
+- name: Ubuntu | Installing qemu-guest-agent
+  apt: 
+    name: qemu-guest-agent
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_virtualization_type == 'kvm'
+
+- name: Ubuntu | Start qemu-guest-agent service
+  service: 
+    name: qemu-guest-agent 
+    state: started 
+    enabled: yes
+  when: ansible_virtualization_type == 'kvm'
